@@ -91,20 +91,36 @@
             height: 100%;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.05;
+            opacity: 0.08;
             background-image: 
                 radial-gradient(circle at 25% 25%, var(--accent) 2px, transparent 2px),
                 radial-gradient(circle at 75% 75%, var(--primary) 1px, transparent 1px);
             background-size: 50px 50px;
         }
 
-        /* 传统云纹装饰 */
+        /* 传统中国纹样 */
+        .chinese-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50C60 35 75 30 90 40C75 50 60 65 50 50Z' fill='%23d4af37' opacity='0.3'/%3E%3Cpath d='M10 10C20 25 35 30 50 20C35 10 20 -5 10 10Z' fill='%238a1a1a' opacity='0.2'/%3E%3C/svg%3E");
+            background-size: 200px 200px;
+            background-repeat: repeat;
+        }
+
+        /* 云纹装饰 */
         .cloud-pattern {
             position: fixed;
             top: 10%;
             right: 10%;
-            width: 200px;
-            height: 100px;
+            width: 150px;
+            height: 80px;
             pointer-events: none;
             z-index: 0;
             opacity: 0.1;
@@ -115,10 +131,10 @@
         .cloud-pattern::before {
             content: '';
             position: absolute;
-            top: -30px;
-            left: 30px;
-            width: 80px;
-            height: 80px;
+            top: -20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
             background: var(--accent);
             border-radius: 50%;
         }
@@ -126,18 +142,24 @@
         .cloud-pattern::after {
             content: '';
             position: absolute;
-            top: -20px;
-            right: 30px;
-            width: 100px;
-            height: 100px;
+            top: -15px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
             background: var(--accent);
             border-radius: 50%;
         }
 
-        .cloud-pattern:nth-child(2) {
+        .cloud-pattern:nth-child(3) {
             top: 60%;
             left: 10%;
             transform: scale(0.8);
+        }
+
+        .cloud-pattern:nth-child(4) {
+            top: 30%;
+            left: 20%;
+            transform: scale(0.6);
         }
 
         @keyframes float {
@@ -234,11 +256,12 @@
 
         /* 卡片通用样式 */
         .card {
-            background: var(--card-bg);
-            border: 2px solid var(--card-border);
-            border-radius: 8px;
+            background: rgba(249, 246, 240, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
             padding: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -250,8 +273,8 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
             opacity: 0.8;
         }
 
@@ -261,14 +284,15 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
             opacity: 0.8;
         }
 
         .card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+            background: rgba(249, 246, 240, 0.8);
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
             transform: translateY(-2px);
         }
 
@@ -514,18 +538,19 @@
         }
 
         .interpretation-item {
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
             border-radius: 12px;
             padding: 20px;
-            border-left: 3px solid var(--primary);
+            border-left: 3px solid var(--accent);
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
         }
 
         .interpretation-item:hover {
-            background: #f1f3f5;
+            background: rgba(255, 255, 255, 0.8);
             transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
         }
 
         .interpretation-item h3 {
@@ -1124,6 +1149,8 @@
     
     <!-- 中国风纹样 -->
     <div class="bg-pattern"></div>
+    <div class="chinese-pattern"></div>
+    <div class="cloud-pattern"></div>
     <div class="cloud-pattern"></div>
     <div class="cloud-pattern"></div>
     
