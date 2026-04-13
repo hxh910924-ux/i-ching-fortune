@@ -82,23 +82,14 @@
             animation: float 25s ease-in-out infinite reverse;
         }
 
-        /* 中国风纹样 */
-        .bg-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.08;
-            background-image: 
-                radial-gradient(circle at 25% 25%, var(--accent) 2px, transparent 2px),
-                radial-gradient(circle at 75% 75%, var(--primary) 1px, transparent 1px);
-            background-size: 50px 50px;
+
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(2deg); }
         }
 
-        /* 传统中国纹样 */
+        /* 中国传统祥云纹样 */
         .chinese-pattern {
             position: fixed;
             top: 0;
@@ -107,64 +98,11 @@
             height: 100%;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.1;
+            opacity: 0.12;
             background-image: 
-                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50C60 35 75 30 90 40C75 50 60 65 50 50Z' fill='%23d4af37' opacity='0.3'/%3E%3Cpath d='M10 10C20 25 35 30 50 20C35 10 20 -5 10 10Z' fill='%238a1a1a' opacity='0.2'/%3E%3C/svg%3E");
-            background-size: 200px 200px;
+                url("data:image/svg+xml,%3Csvg width='300' height='150' viewBox='0 0 300 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 100 Q70 70 90 85 Q110 60 130 85 Q150 70 170 90 Q190 75 210 90 Q230 70 250 90' fill='none' stroke='%238a1a1a' stroke-width='1'/%3E%3Cpath d='M60 100 Q80 80 100 90 Q120 70 140 90 Q160 80 180 95 Q200 85 220 95 Q240 80 260 95' fill='none' stroke='%238a1a1a' stroke-width='1'/%3E%3Cpath d='M70 100 Q90 90 110 95 Q130 80 150 95 Q170 90 190 100 Q210 95 230 100 Q250 90 270 100' fill='none' stroke='%238a1a1a' stroke-width='1'/%3E%3Cpath d='M80 110 Q100 100 120 105 Q140 95 160 105 Q180 100 200 105 Q220 100 240 105 Q260 100 280 105' fill='none' stroke='%238a1a1a' stroke-width='1'/%3E%3C/svg%3E");
+            background-size: 350px 175px;
             background-repeat: repeat;
-        }
-
-        /* 云纹装饰 */
-        .cloud-pattern {
-            position: fixed;
-            top: 10%;
-            right: 10%;
-            width: 150px;
-            height: 80px;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.1;
-            background: var(--accent);
-            border-radius: 50px;
-        }
-
-        .cloud-pattern::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: 20px;
-            width: 60px;
-            height: 60px;
-            background: var(--accent);
-            border-radius: 50%;
-        }
-
-        .cloud-pattern::after {
-            content: '';
-            position: absolute;
-            top: -15px;
-            right: 20px;
-            width: 80px;
-            height: 80px;
-            background: var(--accent);
-            border-radius: 50%;
-        }
-
-        .cloud-pattern:nth-child(3) {
-            top: 60%;
-            left: 10%;
-            transform: scale(0.8);
-        }
-
-        .cloud-pattern:nth-child(4) {
-            top: 30%;
-            left: 20%;
-            transform: scale(0.6);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(2deg); }
         }
 
         /* 粒子效果 */
@@ -256,10 +194,11 @@
 
         /* 卡片通用样式 */
         .card {
-            background: rgba(249, 246, 240, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
+            background: rgba(249, 246, 240, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 16px;
             padding: 30px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -274,7 +213,7 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
             opacity: 0.8;
         }
 
@@ -285,13 +224,13 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
             opacity: 0.8;
         }
 
         .card:hover {
-            background: rgba(249, 246, 240, 0.8);
-            border-color: rgba(212, 175, 55, 0.5);
+            background: rgba(249, 246, 240, 0.7);
+            border-color: rgba(212, 175, 55, 0.6);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
             transform: translateY(-2px);
         }
@@ -382,15 +321,7 @@
             transform: none;
         }
 
-        .btn-icon {
-            font-size: 1.4rem;
-            animation: rotate 3s linear infinite;
-            animation-play-state: paused;
-        }
 
-        .toss-button:hover .btn-icon {
-            animation-play-state: running;
-        }
 
         @keyframes rotate {
             from { transform: rotate(0deg); }
@@ -1147,12 +1078,8 @@
     <!-- 背景装饰 -->
     <div class="bg-decoration"></div>
     
-    <!-- 中国风纹样 -->
-    <div class="bg-pattern"></div>
+    <!-- 中国传统祥云纹样 -->
     <div class="chinese-pattern"></div>
-    <div class="cloud-pattern"></div>
-    <div class="cloud-pattern"></div>
-    <div class="cloud-pattern"></div>
     
     <!-- 粒子效果 -->
     <div class="particles" id="particles"></div>
@@ -2671,7 +2598,7 @@
             // 显示加载动画
             loadingOverlay.classList.add('active');
             btn.disabled = true;
-            btn.innerHTML = '<span class="btn-icon">☯</span> 起卦中...';
+            btn.innerHTML = '起卦中...';
             
             setTimeout(() => {
                 const lines = generateHexagram();
@@ -2691,7 +2618,7 @@
                 // 隐藏加载动画
                 loadingOverlay.classList.remove('active');
                 btn.disabled = false;
-                btn.innerHTML = '<span class="btn-icon">☯</span> 再次起卦';
+                btn.innerHTML = '再次起卦';
             }, 1500);
         });
 
