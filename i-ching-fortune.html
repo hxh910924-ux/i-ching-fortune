@@ -1,0 +1,2614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#0f0f1a">
+    <meta name="msapplication-navbutton-color" content="#0f0f1a">
+    <meta name="apple-mobile-web-app-title" content="周易六爻">
+    <title>周易六爻 · 运势预测</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --primary-light: #16213e;
+            --accent: #c9a227;
+            --accent-light: #e8d5a3;
+            --text: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --yang: #c9a227;
+            --yin: #2a2a4a;
+            --moving: #e74c3c;
+            --gradient-1: #0f0f1a;
+            --gradient-2: #1a1a2e;
+            --gradient-3: #16213e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: var(--gradient-1);
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--gradient-1);
+            min-height: 100vh;
+            min-height: 100dvh;
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 背景装饰 */
+        .bg-decoration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-decoration::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(ellipse, rgba(201, 162, 39, 0.08) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .bg-decoration::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 60%;
+            height: 100%;
+            background: radial-gradient(ellipse, rgba(201, 162, 39, 0.05) 0%, transparent 60%);
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(2deg); }
+        }
+
+        /* 粒子效果 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: particle-float 15s infinite;
+        }
+
+        @keyframes particle-float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+        }
+
+        .app-container {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 20px;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 头部 */
+        .app-header {
+            text-align: center;
+            padding: 60px 0 30px;
+            position: relative;
+        }
+
+        .app-header::before {
+            content: '☯';
+            font-size: 3rem;
+            color: var(--accent);
+            opacity: 0.3;
+            display: block;
+            margin-bottom: 15px;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+
+        .app-header h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(201, 162, 39, 0.3);
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+        }
+
+        /* 主内容区 */
+        .app-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* 卡片通用样式 */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.5;
+        }
+
+        .card:hover {
+            border-color: rgba(201, 162, 39, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(180deg, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        /* 起卦区域 */
+        .toss-section {
+            text-align: center;
+        }
+
+        .toss-instruction {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .toss-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 18px 45px;
+            background: linear-gradient(135deg, rgba(201, 162, 39, 0.9), rgba(201, 162, 39, 0.6));
+            color: var(--primary);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(201, 162, 39, 0.3);
+        }
+
+        .toss-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .toss-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(201, 162, 39, 0.4);
+        }
+
+        .toss-button:hover::before {
+            left: 100%;
+        }
+
+        .toss-button:active {
+            transform: translateY(-1px);
+        }
+
+        .toss-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-icon {
+            font-size: 1.4rem;
+            animation: rotate 3s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .toss-button:hover .btn-icon {
+            animation-play-state: running;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 卦象显示区域 */
+        .hexagram-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            padding: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .hexagram-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+        }
+
+        .hexagram-line {
+            width: 140px;
+            height: 24px;
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .hexagram-line.yang {
+            background: linear-gradient(90deg, var(--yang), var(--accent-light));
+            box-shadow: 0 0 20px rgba(201, 162, 39, 0.4);
+        }
+
+        .hexagram-line.yin {
+            background: transparent;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .hexagram-line.yin .yin-segment {
+            flex: 1;
+            height: 100%;
+            background: var(--yin);
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hexagram-line.moving {
+            animation: moving-pulse 1.5s ease-in-out infinite;
+            position: relative;
+        }
+
+        .hexagram-line.moving .moving-mark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--moving);
+            font-size: 0.8rem;
+            text-shadow: 0 0 10px var(--moving);
+            z-index: 10;
+        }
+
+        @keyframes moving-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .hexagram-info {
+            text-align: center;
+        }
+
+        .hexagram-name {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(201, 162, 39, 0.3);
+        }
+
+        .hexagram-number {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* 预测类型选择 */
+        .prediction-type {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .prediction-label {
+            display: block;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .prediction-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .prediction-tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--card-border);
+            border-radius: 25px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .prediction-tab:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .prediction-tab.active {
+            background: rgba(201, 162, 39, 0.15);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* 解读区域 */
+        .interpretation-content {
+            display: grid;
+            gap: 20px;
+        }
+
+        .interpretation-item {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 3px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .interpretation-item:hover {
+            background: rgba(0, 0, 0, 0.2);
+            transform: translateX(5px);
+        }
+
+        .interpretation-item h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .interpretation-item p {
+            color: var(--text);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .history-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 22px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 25px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .history-link-btn:hover {
+            background: rgba(201, 162, 39, 0.1);
+            border-color: rgba(201, 162, 39, 0.3);
+            color: var(--accent);
+        }
+
+        /* 历史记录 */
+        /* 页脚 */
+        .app-footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        /* 动画 */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .app-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .hexagram-display {
+                flex-direction: column;
+                gap: 25px;
+                padding: 20px 0;
+            }
+
+            .hexagram-visual {
+                padding: 20px;
+                gap: 10px;
+                width: 100%;
+                max-width: 200px;
+            }
+
+            .hexagram-line {
+                width: 100%;
+                max-width: 140px;
+                height: 18px;
+            }
+
+            .hexagram-name {
+                font-size: 1.8rem;
+            }
+
+            .hexagram-number {
+                font-size: 0.9rem;
+            }
+
+            .prediction-tabs {
+                gap: 8px;
+            }
+
+            .prediction-tab {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+
+            .toss-button {
+                padding: 16px 35px;
+                font-size: 1rem;
+            }
+
+            .interpretation-item {
+                padding: 15px;
+            }
+
+            /* 手机端沉浸感优化 */
+            .app-container {
+                padding: 0 15px 15px;
+            }
+
+            .app-header {
+                padding-top: 50px;
+            }
+
+            .card {
+                border-radius: 16px;
+            }
+        }
+
+        /* 加载动画 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 26, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(201, 162, 39, 0.2);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            color: var(--accent);
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* 隐藏元素 */
+        .hidden {
+            display: none !important;
+        }
+        /* 彩种选择器 */
+        .lottery-selector {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--card-border);
+        }
+
+        .lottery-label {
+            display: block;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .lottery-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .lottery-tab {
+            padding: 6px 14px;
+            background: transparent;
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lottery-tab:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .lottery-tab.active {
+            background: rgba(201, 162, 39, 0.2);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .lottery-result {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .lottery-balls {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .lottery-ball {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .lottery-ball.red {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+        }
+
+        .lottery-ball.blue {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
+        }
+
+        .lottery-ball.green {
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+            box-shadow: 0 2px 8px rgba(39, 174, 96, 0.4);
+        }
+
+        .lottery-ball.purple {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            box-shadow: 0 2px 8px rgba(155, 89, 182, 0.4);
+        }
+
+        .lottery-ball.orange {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            box-shadow: 0 2px 8px rgba(230, 126, 34, 0.4);
+        }
+
+        .lottery-divider {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin: 0 5px;
+            align-self: center;
+        }
+
+        .lottery-special-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .scratch-tip {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* 求测问题选择器 */
+        .question-selector {
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+        }
+
+        .question-label {
+            display: block;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .question-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 0 10px;
+        }
+
+        .question-tab {
+            padding: 12px 22px;
+            background: transparent;
+            border: 1px solid var(--card-border);
+            border-radius: 25px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 400;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-tab:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .question-tab.active {
+            background: linear-gradient(135deg, rgba(201, 162, 39, 0.2), rgba(201, 162, 39, 0.1));
+            border-color: var(--accent);
+            color: var(--accent);
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(201, 162, 39, 0.2);
+        }
+
+        .question-tab.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.1), transparent);
+            animation: shine 2s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* 彩种选择器 */
+        .lottery-selector {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .lottery-label {
+            display: block;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .lottery-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .lottery-tab {
+            padding: 10px 18px;
+            background: transparent;
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lottery-tab:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .lottery-tab.active {
+            background: rgba(201, 162, 39, 0.2);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .app-header {
+                padding: 40px 0 20px;
+            }
+
+            .app-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .hexagram-visual {
+                padding: 20px;
+            }
+
+            .hexagram-line {
+                width: 120px;
+                height: 20px;
+            }
+
+            .hexagram-name {
+                font-size: 2rem;
+            }
+
+            .toss-button {
+                padding: 16px 35px;
+                font-size: 1rem;
+            }
+
+            .question-selector {
+                padding: 20px 15px;
+                margin: 25px 0;
+            }
+
+            .question-tabs {
+                gap: 8px;
+                padding: 0 5px;
+            }
+
+            .question-tab {
+                padding: 10px 18px;
+                font-size: 0.85rem;
+            }
+
+            .lottery-tabs {
+                gap: 8px;
+                padding: 0 5px;
+            }
+
+            .lottery-tab {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+
+            .prediction-result {
+                padding: 20px;
+            }
+
+            .result-item {
+                margin-bottom: 15px;
+            }
+
+            .history-item {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .hexagram-visual {
+                padding: 15px;
+            }
+
+            .hexagram-line {
+                width: 100px;
+                height: 18px;
+            }
+
+            .hexagram-name {
+                font-size: 1.8rem;
+            }
+
+            .question-tab {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+
+            .toss-instruction {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* 微交互优化 */
+        .card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(201, 162, 39, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .hexagram-line {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hexagram-line.yang:hover {
+            box-shadow: 0 0 30px rgba(201, 162, 39, 0.6);
+            transform: scale(1.05);
+        }
+
+        .hexagram-line.yin:hover {
+            transform: scale(1.05);
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(201, 162, 39, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(201, 162, 39, 0.7);
+        }
+
+        /* 选择文本样式 */
+        ::selection {
+            background: rgba(201, 162, 39, 0.3);
+            color: var(--accent);
+        }
+
+        /* 焦点样式 */
+        *:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        /* 无障碍支持 */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景装饰 -->
+    <div class="bg-decoration"></div>
+    
+    <!-- 粒子效果 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- 加载遮罩 -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">起卦中...</div>
+    </div>
+
+    <div class="app-container">
+        <header class="app-header">
+            <h1>周易六爻</h1>
+            <p class="subtitle">运势预测 · 趋吉避凶</p>
+        </header>
+
+        <main class="app-main">
+            <!-- 起卦区域 -->
+            <section class="card toss-section">
+                <h2 class="card-title">起卦</h2>
+                <p class="toss-instruction">
+                    心诚则灵，默念所求之事<br>
+                    选择求测问题，点击下方按钮开始起卦
+                </p>
+                <div class="question-selector">
+                    <span class="question-label">选择求测问题</span>
+                    <div class="question-tabs">
+                        <button class="question-tab active" data-question="fortune">综合运势</button>
+                        <button class="question-tab" data-question="career">事业</button>
+                        <button class="question-tab" data-question="love">感情</button>
+                        <button class="question-tab" data-question="wealth">财运</button>
+                        <button class="question-tab" data-question="exam">考试</button>
+                        <button class="question-tab" data-question="person">寻人</button>
+                        <button class="question-tab" data-question="lost">失物</button>
+                        <button class="question-tab" data-question="lottery">彩票选号</button>
+                    </div>
+                </div>
+                <button id="toss-btn" class="toss-button">
+                    <span class="btn-icon">☯</span>
+                    开始起卦
+                </button>
+            </section>
+
+            <!-- 卦象显示 -->
+            <section class="card hidden" id="hexagram-section">
+                <h2 class="card-title">卦象</h2>
+                <div class="hexagram-display">
+                    <div class="hexagram-visual" id="hexagram-lines">
+                        <!-- 六爻卦线将在这里动态生成 -->
+                    </div>
+                    <div class="hexagram-info">
+                        <div class="hexagram-name" id="hexagram-name">--</div>
+                        <div class="hexagram-number" id="hexagram-number">卦序 · --</div>
+                    </div>
+                </div>
+                <div class="lottery-selector hidden" id="lottery-selector">
+                    <span class="lottery-label">选择彩种</span>
+                    <div class="lottery-tabs">
+                        <button class="lottery-tab active" data-lottery="ssq">双色球</button>
+                        <button class="lottery-tab" data-lottery="dlt">大乐透</button>
+                        <button class="lottery-tab" data-lottery="pl3">排列3</button>
+                        <button class="lottery-tab" data-lottery="pl5">排列5</button>
+                        <button class="lottery-tab" data-lottery="fc3d">3D</button>
+                        <button class="lottery-tab" data-lottery="qlc">七乐彩</button>
+                        <button class="lottery-tab" data-lottery="scratch">刮刮乐</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 运势解读 -->
+            <section class="card hidden" id="interpretation-section">
+                <h2 class="card-title">运势解读</h2>
+                <div class="interpretation-content">
+                    <div class="interpretation-item">
+                        <h3>📜 卦辞</h3>
+                        <p id="hexagram-text">--</p>
+                    </div>
+                    <div class="interpretation-item">
+                        <h3>✨ 运势</h3>
+                        <p id="fortune-interpretation">--</p>
+                    </div>
+                    <div class="interpretation-item hidden" id="lottery-result-container">
+                        <h3>🎰 彩票选号</h3>
+                        <div class="lottery-result" id="lottery-result"></div>
+                    </div>
+                    <div class="interpretation-item">
+                        <h3>💡 建议</h3>
+                        <p id="advice">--</p>
+                    </div>
+                </div>
+                <div style="text-align:center; margin-top:20px;">
+                    <a href="history.html" class="history-link-btn">
+                        📜 查看历史记录
+                    </a>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="app-footer">
+            <p>© 2026 周易六爻运势预测 · 仅供娱乐参考</p>
+        </footer>
+    </div>
+
+    <script>
+        // 六十四卦详细信息（专业六爻解读）
+        const hexagrams = [
+            {
+                number: 1, 
+                name: "乾卦", 
+                text: "元亨利贞", 
+                fortune: "大吉大利，运势亨通", 
+                advice: "把握机遇，积极进取",
+                detailed: {
+                    career: "事业如日中天，适合开拓进取，领导他人，展现领导力",
+                    love: "感情发展顺利，适合主动表白，建立稳定关系",
+                    wealth: "财运旺盛，适合投资创业，大胆求财",
+                    exam: "考试顺利，思路清晰，容易取得好成绩",
+                    person: "寻人顺利，对方可能在高处或北方，近期可找到",
+                    lost: "失物在高处或贵重之处，容易找回",
+                    lottery: "号码可能与1、9、6相关，吉利数字"
+                }
+            },
+            {
+                number: 2, 
+                name: "坤卦", 
+                text: "元亨，利牝马之贞", 
+                fortune: "平稳发展，厚德载物", 
+                advice: "包容忍让，积累福报",
+                detailed: {
+                    career: "事业稳步发展，适合团队合作，幕后支持",
+                    love: "感情稳定，适合长期发展，以柔克刚",
+                    wealth: "财运稳定，适合稳健投资，积少成多",
+                    exam: "考试需要踏实努力，基础扎实才能成功",
+                    person: "寻人需要耐心等待，对方可能在低处或西南方向",
+                    lost: "失物在低处或柔软之处，需要仔细寻找",
+                    lottery: "号码可能与2、8、4相关，稳重数字"
+                }
+            },
+            {
+                number: 3, 
+                name: "屯卦", 
+                text: "元亨利贞，勿用有攸往，利建侯", 
+                fortune: "初出茅庐，困难重重", 
+                advice: "耐心等待，厚积薄发",
+                detailed: {
+                    career: "事业初创，困难较多，需要耐心积累",
+                    love: "感情刚开始，需要时间培养，不宜急躁",
+                    wealth: "财运初期，需要投资，不宜盲目扩张",
+                    exam: "考试准备不足，需要加倍努力",
+                    person: "寻人困难，需要多方寻找，不宜放弃",
+                    lost: "失物难寻，需要扩大搜索范围",
+                    lottery: "号码可能与3、7、5相关，需要坚持"
+                }
+            },
+            {
+                number: 4, 
+                name: "蒙卦", 
+                text: "亨。匪我求童蒙，童蒙求我", 
+                fortune: "学习成长，启蒙阶段", 
+                advice: "虚心学习，尊师重道",
+                detailed: {
+                    career: "事业需要学习，适合拜师学艺，积累经验",
+                    love: "感情需要沟通，适合坦诚相待，互相学习",
+                    wealth: "财运需要知识，适合学习理财，谨慎投资",
+                    exam: "考试需要学习，适合请教老师，刻苦钻研",
+                    person: "寻人需要询问他人，不宜独自寻找",
+                    lost: "失物需要询问他人，可能在学校或学习场所",
+                    lottery: "号码可能与4、1、8相关，学习数字"
+                }
+            },
+            {
+                number: 5, 
+                name: "需卦", 
+                text: "有孚，光亨，贞吉。利涉大川", 
+                fortune: "等待时机，养精蓄锐", 
+                advice: "保持耐心，等待良机",
+                detailed: {
+                    career: "事业需要等待，适合储备力量，时机成熟再行动",
+                    love: "感情需要等待，不宜急躁，缘分自然到来",
+                    wealth: "财运需要等待，适合储蓄，等待投资良机",
+                    exam: "考试需要准备，时机成熟自然成功",
+                    person: "寻人需要等待，对方可能在远方，耐心等待消息",
+                    lost: "失物需要等待，可能在有水的地方，耐心寻找",
+                    lottery: "号码可能与5、0、9相关，等待数字"
+                }
+            },
+            {
+                number: 6, 
+                name: "讼卦", 
+                text: "有孚窒，惕中吉，终凶", 
+                fortune: "口舌之争，谨慎应对", 
+                advice: "避免争执，以和为贵",
+                detailed: {
+                    career: "事业有纠纷，需要谨慎处理，避免诉讼",
+                    love: "感情有矛盾，需要沟通化解，避免争吵",
+                    wealth: "财运有争议，需要妥善处理，避免损失",
+                    exam: "考试有竞争，需要冷静应对，避免冲突",
+                    person: "寻人有阻碍，可能有争执，需要和解",
+                    lost: "失物有争议，可能被他人拾获，需要协商",
+                    lottery: "号码可能与6、2、7相关，谨慎数字"
+                }
+            },
+            {
+                number: 7, 
+                name: "师卦", 
+                text: "贞丈人吉，无咎", 
+                fortune: "团队合作，领导有方", 
+                advice: "以身作则，团结协作",
+                detailed: {
+                    career: "事业需要团队合作，适合领导他人，带领团队",
+                    love: "感情需要相互支持，共同面对困难",
+                    wealth: "财运需要合作，适合合伙经营，共同求财",
+                    exam: "考试需要团队学习，互相帮助，共同进步",
+                    person: "寻人需要他人帮助，团队合作寻找",
+                    lost: "失物需要多人寻找，扩大搜索范围",
+                    lottery: "号码可能与7、3、9相关，团队数字"
+                }
+            },
+            {
+                number: 8, 
+                name: "比卦", 
+                text: "吉。原筮元永贞，无咎", 
+                fortune: "人际关系，和谐相处", 
+                advice: "广结善缘，互助互利",
+                detailed: {
+                    career: "事业需要人际关系，广结善缘，互助互利",
+                    love: "感情需要和谐相处，相互理解，共同进步",
+                    wealth: "财运需要合作，朋友相助，共同发财",
+                    exam: "考试需要同学帮助，互相学习，共同进步",
+                    person: "寻人需要朋友帮助，人际关系网络寻找",
+                    lost: "失物可能在朋友处，需要询问他人",
+                    lottery: "号码可能与8、4、6相关，和谐数字"
+                }
+            },
+            {
+                number: 9, 
+                name: "小畜卦", 
+                text: "亨。密云不雨，自我西郊", 
+                fortune: "小有积蓄，稳步发展", 
+                advice: "勤俭节约，积少成多",
+                detailed: {
+                    career: "事业小有成就，需要继续努力，稳步发展",
+                    love: "感情初步发展，需要用心经营，稳步推进",
+                    wealth: "财运小有积蓄，需要勤俭节约，积少成多",
+                    exam: "考试小有进步，需要继续努力，稳步提高",
+                    person: "寻人有线索，需要继续寻找，稳步推进",
+                    lost: "失物有线索，需要仔细寻找，稳步推进",
+                    lottery: "号码可能与9、5、3相关，积蓄数字"
+                }
+            },
+            {
+                number: 10, 
+                name: "履卦", 
+                text: "履虎尾，不咥人，亨", 
+                fortune: "如履薄冰，谨慎行事", 
+                advice: "小心谨慎，稳步前进",
+                detailed: {
+                    career: "事业如履薄冰，需要谨慎行事，稳步前进",
+                    love: "感情需要谨慎处理，避免冲突，稳步发展",
+                    wealth: "财运需要谨慎投资，避免风险，稳步增长",
+                    exam: "考试需要谨慎答题，避免失误，稳步发挥",
+                    person: "寻人需要谨慎行动，避免危险，稳步寻找",
+                    lost: "失物需要谨慎寻找，避免破坏现场，稳步搜索",
+                    lottery: "号码可能与10、1、7相关，谨慎数字"
+                }
+            },
+            {
+                number: 11, 
+                name: "泰卦", 
+                text: "小往大来，吉亨", 
+                fortune: "否极泰来，好运将至", 
+                advice: "抓住机会，顺势而为",
+                detailed: {
+                    career: "事业否极泰来，抓住机会，顺势而为",
+                    love: "感情转好，抓住机会，积极发展",
+                    wealth: "财运好转，抓住机会，大胆投资",
+                    exam: "考试运势转好，抓住机会，发挥实力",
+                    person: "寻人有转机，抓住机会，积极寻找",
+                    lost: "失物有转机，抓住机会，仔细寻找",
+                    lottery: "号码可能与11、6、9相关，转运数字"
+                }
+            },
+            {
+                number: 12, 
+                name: "否卦", 
+                text: "否之匪人，不利君子贞", 
+                fortune: "时运不济，等待转机", 
+                advice: "韬光养晦，等待时机",
+                detailed: {
+                    career: "事业不顺，需要韬光养晦，等待时机",
+                    love: "感情不顺，需要冷静处理，等待转机",
+                    wealth: "财运不佳，需要保守理财，等待时机",
+                    exam: "考试不顺，需要继续努力，等待时机",
+                    person: "寻人不顺，需要耐心等待，时机成熟再寻找",
+                    lost: "失物难寻，需要等待时机，可能近期找回",
+                    lottery: "号码可能与12、2、8相关，等待数字"
+                }
+            },
+            {
+                number: 13, 
+                name: "同人卦", 
+                text: "同人于野，亨。利涉大川，利君子贞", 
+                fortune: "志同道合，合作共赢", 
+                advice: "广交朋友，共同发展",
+                detailed: {
+                    career: "事业需要志同道合的伙伴，合作共赢",
+                    love: "感情需要志同道合，共同目标，和谐发展",
+                    wealth: "财运需要合作，共同投资，共享收益",
+                    exam: "考试需要同学互助，共同学习，共同进步",
+                    person: "寻人需要志同道合的朋友帮助，共同寻找",
+                    lost: "失物可能在朋友处，需要共同寻找",
+                    lottery: "号码可能与13、7、9相关，合作数字"
+                }
+            },
+            {
+                number: 14, 
+                name: "大有卦", 
+                text: "元亨", 
+                fortune: "大有收获，事业有成", 
+                advice: "谦虚谨慎，居安思危",
+                detailed: {
+                    career: "事业有成，需要谦虚谨慎，居安思危",
+                    love: "感情美满，需要保持谦虚，珍惜感情",
+                    wealth: "财运亨通，需要谨慎理财，居安思危",
+                    exam: "考试成功，需要保持谦虚，继续努力",
+                    person: "寻人成功，需要珍惜重逢，保持联系",
+                    lost: "失物找回，需要珍惜失而复得，妥善保管",
+                    lottery: "号码可能与14、8、6相关，收获数字"
+                }
+            },
+            {
+                number: 15, 
+                name: "谦卦", 
+                text: "亨，君子有终", 
+                fortune: "谦虚谨慎，福报深厚", 
+                advice: "保持谦虚，戒骄戒躁",
+                detailed: {
+                    career: "事业需要谦虚谨慎，戒骄戒躁，稳步发展",
+                    love: "感情需要谦虚，互相尊重，和谐发展",
+                    wealth: "财运需要谦虚，不贪不奢，福报深厚",
+                    exam: "考试需要谦虚，不骄不躁，继续努力",
+                    person: "寻人需要谦虚请教，多方询问",
+                    lost: "失物需要谦虚询问，不急躁，仔细寻找",
+                    lottery: "号码可能与15、9、5相关，谦虚数字"
+                }
+            },
+            {
+                number: 16, 
+                name: "豫卦", 
+                text: "利建侯行师", 
+                fortune: "欢乐祥和，心想事成", 
+                advice: "劳逸结合，享受生活",
+                detailed: {
+                    career: "事业顺利，心情愉悦，适合拓展业务",
+                    love: "感情甜蜜，心情愉悦，适合增进感情",
+                    wealth: "财运亨通，心情愉悦，适合投资享乐",
+                    exam: "考试顺利，心情愉悦，发挥正常",
+                    person: "寻人顺利，心情愉悦，近期可找到",
+                    lost: "失物找回，心情愉悦，失而复得",
+                    lottery: "号码可能与16、4、8相关，欢乐数字"
+                }
+            },
+            {
+                number: 17, 
+                name: "随卦", 
+                text: "元亨，利贞，无咎", 
+                fortune: "顺应时势，跟随潮流", 
+                advice: "灵活变通，顺势而为",
+                detailed: {
+                    career: "事业需要顺应时势，灵活变通，顺势而为",
+                    love: "感情需要顺应对方，灵活调整，和谐相处",
+                    wealth: "财运需要顺应市场，灵活投资，顺势而为",
+                    exam: "考试需要顺应考题，灵活答题，发挥优势",
+                    person: "寻人需要顺应线索，灵活调整，顺势寻找",
+                    lost: "失物需要顺应线索，灵活寻找，顺势而为",
+                    lottery: "号码可能与17、3、7相关，顺应数字"
+                }
+            },
+            {
+                number: 18, 
+                name: "蛊卦", 
+                text: "元亨，利涉大川", 
+                fortune: "去除弊病，革故鼎新", 
+                advice: "勇于改革，破旧立新",
+                detailed: {
+                    career: "事业需要改革，去除弊病，破旧立新",
+                    love: "感情需要改变，去除矛盾，重新开始",
+                    wealth: "财运需要改革，去除旧思维，创新投资",
+                    exam: "考试需要改变学习方法，去除旧习惯，创新思维",
+                    person: "寻人需要改变方法，去除旧思路，创新寻找",
+                    lost: "失物需要改变寻找方法，去除旧思路，创新搜索",
+                    lottery: "号码可能与18、2、6相关，改革数字"
+                }
+            },
+            {
+                number: 19, 
+                name: "临卦", 
+                text: "元亨，利贞，至于八月有凶", 
+                fortune: "领导他人，掌控局面", 
+                advice: "以身作则，以德服人",
+                detailed: {
+                    career: "事业需要领导他人，以身作则，以德服人",
+                    love: "感情需要主动引导，以身作则，以德服人",
+                    wealth: "财运需要掌控局面，以身作则，诚信经营",
+                    exam: "考试需要掌控时间，以身作则，认真答题",
+                    person: "寻人需要主动寻找，以身作则，多方联系",
+                    lost: "失物需要主动寻找，以身作则，仔细搜索",
+                    lottery: "号码可能与19、1、9相关，领导数字"
+                }
+            },
+            {
+                number: 20, 
+                name: "观卦", 
+                text: "盥而不荐，有孚颙若", 
+                fortune: "观察形势，审时度势", 
+                advice: "明察秋毫，见微知著",
+                detailed: {
+                    career: "事业需要观察形势，审时度势，明察秋毫",
+                    love: "感情需要观察对方，审时度势，见微知著",
+                    wealth: "财运需要观察市场，审时度势，明察秋毫",
+                    exam: "考试需要观察题目，审时度势，见微知著",
+                    person: "寻人需要观察线索，审时度势，明察秋毫",
+                    lost: "失物需要观察环境，审时度势，见微知著",
+                    lottery: "号码可能与20、0、8相关，观察数字"
+                }
+            },
+            {
+                number: 21, 
+                name: "噬嗑卦", 
+                text: "亨，利用狱", 
+                fortune: "解决问题，排除障碍", 
+                advice: "明辨是非，公正处理",
+                detailed: {
+                    career: "事业需要解决问题，排除障碍，明辨是非",
+                    love: "感情需要解决矛盾，排除障碍，公正处理",
+                    wealth: "财运需要解决问题，排除障碍，明辨是非",
+                    exam: "考试需要解决难题，排除障碍，明辨是非",
+                    person: "寻人需要解决阻碍，排除干扰，明辨线索",
+                    lost: "失物需要解决问题，排除障碍，明辨方向",
+                    lottery: "号码可能与21、7、5相关，解决数字"
+                }
+            },
+            {
+                number: 22, 
+                name: "贲卦", 
+                text: "亨，小利有攸往", 
+                fortune: "修饰美化，提升形象", 
+                advice: "注重仪表，内外兼修",
+                detailed: {
+                    career: "事业需要修饰形象，提升能力，内外兼修",
+                    love: "感情需要修饰自己，提升魅力，内外兼修",
+                    wealth: "财运需要修饰项目，提升价值，内外兼修",
+                    exam: "考试需要修饰答案，提升卷面，内外兼修",
+                    person: "寻人需要修饰信息，提升线索，内外兼修",
+                    lost: "失物需要修饰寻找方法，提升效率，内外兼修",
+                    lottery: "号码可能与22、8、4相关，美化数字"
+                }
+            },
+            {
+                number: 23, 
+                name: "剥卦", 
+                text: "不利有攸往", 
+                fortune: "势态衰退，谨慎应对", 
+                advice: "保存实力，等待转机",
+                detailed: {
+                    career: "事业衰退，需要保存实力，等待转机",
+                    love: "感情降温，需要保存关系，等待转机",
+                    wealth: "财运衰退，需要保存资金，等待转机",
+                    exam: "考试成绩下降，需要保存信心，等待转机",
+                    person: "寻人线索减少，需要保存信息，等待转机",
+                    lost: "失物寻找困难，需要保存希望，等待转机",
+                    lottery: "号码可能与23、3、9相关，保存数字"
+                }
+            },
+            {
+                number: 24, 
+                name: "复卦", 
+                text: "亨。出入无疾，朋来无咎", 
+                fortune: "否极泰来，重新开始", 
+                advice: "改过自新，重新出发",
+                detailed: {
+                    career: "事业重新开始，改过自新，积极进取",
+                    love: "感情重新开始，改过自新，和谐发展",
+                    wealth: "财运重新开始，改过自新，积极投资",
+                    exam: "考试重新准备，改过自新，积极备考",
+                    person: "寻人重新开始，改过自新，积极寻找",
+                    lost: "失物重新寻找，改过自新，积极搜索",
+                    lottery: "号码可能与24、4、6相关，重新数字"
+                }
+            },
+            {
+                number: 25, 
+                name: "无妄卦", 
+                text: "元亨，利贞。其匪正有眚，不利有攸往", 
+                fortune: "顺其自然，不妄作为", 
+                advice: "脚踏实地，不贪妄念",
+                detailed: {
+                    career: "事业需要顺其自然，脚踏实地，不贪妄念",
+                    love: "感情需要顺其自然，脚踏实地，不贪妄念",
+                    wealth: "财运需要顺其自然，脚踏实地，不贪妄念",
+                    exam: "考试需要顺其自然，脚踏实地，不贪妄念",
+                    person: "寻人需要顺其自然，脚踏实地，不贪妄念",
+                    lost: "失物需要顺其自然，脚踏实地，不贪妄念",
+                    lottery: "号码可能与25、5、7相关，自然数字"
+                }
+            },
+            {
+                number: 26, 
+                name: "大畜卦", 
+                text: "利贞，不家食吉，利涉大川", 
+                fortune: "积累丰厚，大有作为", 
+                advice: "厚积薄发，大展宏图",
+                detailed: {
+                    career: "事业积累丰厚，厚积薄发，大展宏图",
+                    love: "感情积累深厚，厚积薄发，和谐美满",
+                    wealth: "财运积累丰厚，厚积薄发，大展宏图",
+                    exam: "知识积累丰厚，厚积薄发，大展宏图",
+                    person: "线索积累丰厚，厚积薄发，找到目标",
+                    lost: "寻找积累丰厚，厚积薄发，找回失物",
+                    lottery: "号码可能与26、6、8相关，积累数字"
+                }
+            },
+            {
+                number: 27, 
+                name: "颐卦", 
+                text: "贞吉。观颐，自求口实", 
+                fortune: "修身养性，自我提升", 
+                advice: "注重健康，自我修养",
+                detailed: {
+                    career: "事业需要修身养性，自我提升，注重能力",
+                    love: "感情需要修身养性，自我提升，注重品德",
+                    wealth: "财运需要修身养性，自我提升，注重诚信",
+                    exam: "考试需要修身养性，自我提升，注重学习",
+                    person: "寻人需要修身养性，自我提升，注重方法",
+                    lost: "失物需要修身养性，自我提升，注重细节",
+                    lottery: "号码可能与27、7、9相关，修养数字"
+                }
+            },
+            {
+                number: 28, 
+                name: "大过卦", 
+                text: "栋桡，利有攸往，亨", 
+                fortune: "超越常规，大胆创新", 
+                advice: "敢作敢为，突破常规",
+                detailed: {
+                    career: "事业需要超越常规，大胆创新，突破常规",
+                    love: "感情需要超越常规，大胆表白，突破常规",
+                    wealth: "财运需要超越常规，大胆投资，突破常规",
+                    exam: "考试需要超越常规，大胆答题，突破常规",
+                    person: "寻人需要超越常规，大胆寻找，突破常规",
+                    lost: "失物需要超越常规，大胆搜索，突破常规",
+                    lottery: "号码可能与28、8、2相关，创新数字"
+                }
+            },
+            {
+                number: 29, 
+                name: "坎卦", 
+                text: "习坎，有孚，维心亨，行有尚", 
+                fortune: "困难重重，艰险前行", 
+                advice: "坚定信念，克服困难",
+                detailed: {
+                    career: "事业困难重重，需要坚定信念，克服困难",
+                    love: "感情困难重重，需要坚定信念，克服困难",
+                    wealth: "财运困难重重，需要坚定信念，克服困难",
+                    exam: "考试困难重重，需要坚定信念，克服困难",
+                    person: "寻人困难重重，需要坚定信念，克服困难",
+                    lost: "失物困难重重，需要坚定信念，克服困难",
+                    lottery: "号码可能与29、9、1相关，坚定数字"
+                }
+            },
+            {
+                number: 30, 
+                name: "离卦", 
+                text: "利贞，亨。畜牝牛吉", 
+                fortune: "光明磊落，充满希望", 
+                advice: "保持乐观，积极向上",
+                detailed: {
+                    career: "事业光明磊落，保持乐观，积极向上",
+                    love: "感情光明磊落，保持乐观，积极向上",
+                    wealth: "财运光明磊落，保持乐观，积极向上",
+                    exam: "考试光明磊落，保持乐观，积极向上",
+                    person: "寻人光明磊落，保持乐观，积极向上",
+                    lost: "失物光明磊落，保持乐观，积极向上",
+                    lottery: "号码可能与30、0、6相关，光明数字"
+                }
+            },
+            {
+                number: 31, 
+                name: "咸卦", 
+                text: "亨，利贞，取女吉", 
+                fortune: "感情和谐，人际关系良好", 
+                advice: "用心沟通，相互理解",
+                detailed: {
+                    career: "事业需要用心沟通，相互理解，和谐人际关系",
+                    love: "感情和谐，用心沟通，相互理解",
+                    wealth: "财运需要用心沟通，相互理解，和谐合作",
+                    exam: "考试需要用心沟通，相互理解，学习互助",
+                    person: "寻人需要用心沟通，相互理解，多方询问",
+                    lost: "失物需要用心沟通，相互理解，询问他人",
+                    lottery: "号码可能与31、1、7相关，沟通数字"
+                }
+            },
+            {
+                number: 32, 
+                name: "恒卦", 
+                text: "亨，无咎，利贞，利有攸往", 
+                fortune: "持之以恒，坚持不懈", 
+                advice: "保持恒心，长久经营",
+                detailed: {
+                    career: "事业需要持之以恒，坚持不懈，长久经营",
+                    love: "感情需要持之以恒，坚持不懈，长久经营",
+                    wealth: "财运需要持之以恒，坚持不懈，长久经营",
+                    exam: "考试需要持之以恒，坚持不懈，长久学习",
+                    person: "寻人需要持之以恒，坚持不懈，长久寻找",
+                    lost: "失物需要持之以恒，坚持不懈，长久寻找",
+                    lottery: "号码可能与32、2、8相关，恒心数字"
+                }
+            },
+            {
+                number: 33, 
+                name: "遁卦", 
+                text: "亨，小利贞", 
+                fortune: "激流勇退，明哲保身", 
+                advice: "审时度势，适当退让",
+                detailed: {
+                    career: "事业需要审时度势，适当退让，明哲保身",
+                    love: "感情需要审时度势，适当退让，明哲保身",
+                    wealth: "财运需要审时度势，适当退让，明哲保身",
+                    exam: "考试需要审时度势，适当退让，明哲保身",
+                    person: "寻人需要审时度势，适当退让，明哲保身",
+                    lost: "失物需要审时度势，适当退让，明哲保身",
+                    lottery: "号码可能与33、3、9相关，退让数字"
+                }
+            },
+            {
+                number: 34, 
+                name: "大壮卦", 
+                text: "利贞", 
+                fortune: "力量强大，气势如虹", 
+                advice: "刚柔相济，避免过刚",
+                detailed: {
+                    career: "事业力量强大，刚柔相济，避免过刚",
+                    love: "感情力量强大，刚柔相济，避免过刚",
+                    wealth: "财运力量强大，刚柔相济，避免过刚",
+                    exam: "考试力量强大，刚柔相济，避免过刚",
+                    person: "寻人力量强大，刚柔相济，避免过刚",
+                    lost: "失物力量强大，刚柔相济，避免过刚",
+                    lottery: "号码可能与34、4、6相关，强大数字"
+                }
+            },
+            {
+                number: 35, 
+                name: "晋卦", 
+                text: "康侯用锡马蕃庶，昼日三接", 
+                fortune: "晋升发展，事业有成", 
+                advice: "积极进取，把握机会",
+                detailed: {
+                    career: "事业晋升发展，积极进取，把握机会",
+                    love: "感情升温发展，积极进取，把握机会",
+                    wealth: "财运晋升发展，积极进取，把握机会",
+                    exam: "考试晋升发展，积极进取，把握机会",
+                    person: "寻人晋升发展，积极进取，把握机会",
+                    lost: "失物晋升发展，积极进取，把握机会",
+                    lottery: "号码可能与35、5、7相关，晋升数字"
+                }
+            },
+            {
+                number: 36, 
+                name: "明夷卦", 
+                text: "利艰贞", 
+                fortune: "光明受损，韬光养晦", 
+                advice: "隐忍待机，保存实力",
+                detailed: {
+                    career: "事业光明受损，隐忍待机，保存实力",
+                    love: "感情光明受损，隐忍待机，保存实力",
+                    wealth: "财运光明受损，隐忍待机，保存实力",
+                    exam: "考试光明受损，隐忍待机，保存实力",
+                    person: "寻人光明受损，隐忍待机，保存实力",
+                    lost: "失物光明受损，隐忍待机，保存实力",
+                    lottery: "号码可能与36、6、8相关，隐忍数字"
+                }
+            },
+            {
+                number: 37, 
+                name: "家人卦", 
+                text: "利女贞", 
+                fortune: "家庭和谐，幸福美满", 
+                advice: "重视家庭，和睦相处",
+                detailed: {
+                    career: "事业需要重视团队，和睦相处，共同发展",
+                    love: "感情需要重视家庭，和睦相处，幸福美满",
+                    wealth: "财运需要重视合作，和睦相处，共同发财",
+                    exam: "考试需要重视学习氛围，和睦相处，共同进步",
+                    person: "寻人需要重视家庭线索，和睦相处，多方询问",
+                    lost: "失物需要重视家庭环境，和睦相处，仔细寻找",
+                    lottery: "号码可能与37、7、9相关，家庭数字"
+                }
+            },
+            {
+                number: 38, 
+                name: "睽卦", 
+                text: "小事吉", 
+                fortune: "意见分歧，求同存异", 
+                advice: "相互理解，化解矛盾",
+                detailed: {
+                    career: "事业意见分歧，求同存异，相互理解",
+                    love: "感情意见分歧，求同存异，相互理解",
+                    wealth: "财运意见分歧，求同存异，相互理解",
+                    exam: "考试意见分歧，求同存异，相互理解",
+                    person: "寻人意见分歧，求同存异，相互理解",
+                    lost: "失物意见分歧，求同存异，相互理解",
+                    lottery: "号码可能与38、8、2相关，分歧数字"
+                }
+            },
+            {
+                number: 39, 
+                name: "蹇卦", 
+                text: "利西南，不利东北", 
+                fortune: "道路艰险，困难重重", 
+                advice: "迂回前进，寻找转机",
+                detailed: {
+                    career: "事业道路艰险，迂回前进，寻找转机",
+                    love: "感情道路艰险，迂回前进，寻找转机",
+                    wealth: "财运道路艰险，迂回前进，寻找转机",
+                    exam: "考试道路艰险，迂回前进，寻找转机",
+                    person: "寻人道路艰险，迂回前进，寻找转机",
+                    lost: "失物道路艰险，迂回前进，寻找转机",
+                    lottery: "号码可能与39、9、3相关，艰险数字"
+                }
+            },
+            {
+                number: 40, 
+                name: "解卦", 
+                text: "利西南，无所往，其来复吉", 
+                fortune: "困难解除，迎来转机", 
+                advice: "抓住机会，顺势而为",
+                detailed: {
+                    career: "事业困难解除，抓住机会，顺势而为",
+                    love: "感情困难解除，抓住机会，顺势而为",
+                    wealth: "财运困难解除，抓住机会，顺势而为",
+                    exam: "考试困难解除，抓住机会，顺势而为",
+                    person: "寻人困难解除，抓住机会，顺势而为",
+                    lost: "失物困难解除，抓住机会，顺势而为",
+                    lottery: "号码可能与40、0、6相关，解除数字"
+                }
+            },
+            {
+                number: 41, 
+                name: "损卦", 
+                text: "有孚，元吉，无咎", 
+                fortune: "有所损失，舍小取大", 
+                advice: "懂得取舍，目光长远",
+                detailed: {
+                    career: "事业有所损失，舍小取大，目光长远",
+                    love: "感情有所损失，舍小取大，目光长远",
+                    wealth: "财运有所损失，舍小取大，目光长远",
+                    exam: "考试有所损失，舍小取大，目光长远",
+                    person: "寻人有所损失，舍小取大，目光长远",
+                    lost: "失物有所损失，舍小取大，目光长远",
+                    lottery: "号码可能与41、1、7相关，取舍数字"
+                }
+            },
+            {
+                number: 42, 
+                name: "益卦", 
+                text: "利有攸往，利涉大川", 
+                fortune: "受益良多，好运连连", 
+                advice: "乐于助人，互惠互利",
+                detailed: {
+                    career: "事业受益良多，乐于助人，互惠互利",
+                    love: "感情受益良多，乐于助人，互惠互利",
+                    wealth: "财运受益良多，乐于助人，互惠互利",
+                    exam: "考试受益良多，乐于助人，互惠互利",
+                    person: "寻人受益良多，乐于助人，互惠互利",
+                    lost: "失物受益良多，乐于助人，互惠互利",
+                    lottery: "号码可能与42、2、8相关，受益数字"
+                }
+            },
+            {
+                number: 43, 
+                name: "夬卦", 
+                text: "扬于王庭，孚号有厉", 
+                fortune: "果断决策，排除万难", 
+                advice: "当机立断，雷厉风行",
+                detailed: {
+                    career: "事业需要果断决策，当机立断，雷厉风行",
+                    love: "感情需要果断决策，当机立断，雷厉风行",
+                    wealth: "财运需要果断决策，当机立断，雷厉风行",
+                    exam: "考试需要果断决策，当机立断，雷厉风行",
+                    person: "寻人需要果断决策，当机立断，雷厉风行",
+                    lost: "失物需要果断决策，当机立断，雷厉风行",
+                    lottery: "号码可能与43、3、9相关，果断数字"
+                }
+            },
+            {
+                number: 44, 
+                name: "姤卦", 
+                text: "女壮，勿用取女", 
+                fortune: "邂逅相遇，机缘巧合", 
+                advice: "谨慎对待，把握分寸",
+                detailed: {
+                    career: "事业邂逅机遇，谨慎对待，把握分寸",
+                    love: "感情邂逅缘分，谨慎对待，把握分寸",
+                    wealth: "财运邂逅机会，谨慎对待，把握分寸",
+                    exam: "考试邂逅机遇，谨慎对待，把握分寸",
+                    person: "寻人邂逅线索，谨慎对待，把握分寸",
+                    lost: "失物邂逅机会，谨慎对待，把握分寸",
+                    lottery: "号码可能与44、4、6相关，邂逅数字"
+                }
+            },
+            {
+                number: 45, 
+                name: "萃卦", 
+                text: "亨。王假有庙，利见大人", 
+                fortune: "聚集力量，共谋发展", 
+                advice: "团结协作，共同进步",
+                detailed: {
+                    career: "事业需要聚集力量，团结协作，共同进步",
+                    love: "感情需要聚集力量，团结协作，共同进步",
+                    wealth: "财运需要聚集力量，团结协作，共同进步",
+                    exam: "考试需要聚集力量，团结协作，共同进步",
+                    person: "寻人需要聚集力量，团结协作，共同进步",
+                    lost: "失物需要聚集力量，团结协作，共同进步",
+                    lottery: "号码可能与45、5、7相关，聚集数字"
+                }
+            },
+            {
+                number: 46, 
+                name: "升卦", 
+                text: "元亨，用见大人，勿恤", 
+                fortune: "步步高升，前途光明", 
+                advice: "脚踏实地，稳步上升",
+                detailed: {
+                    career: "事业步步高升，脚踏实地，稳步上升",
+                    love: "感情步步高升，脚踏实地，稳步上升",
+                    wealth: "财运步步高升，脚踏实地，稳步上升",
+                    exam: "考试步步高升，脚踏实地，稳步上升",
+                    person: "寻人步步高升，脚踏实地，稳步上升",
+                    lost: "失物步步高升，脚踏实地，稳步上升",
+                    lottery: "号码可能与46、6、8相关，上升数字"
+                }
+            },
+            {
+                number: 47, 
+                name: "困卦", 
+                text: "亨，贞大人吉，无咎", 
+                fortune: "陷入困境，磨练意志", 
+                advice: "坚韧不拔，寻求突破",
+                detailed: {
+                    career: "事业陷入困境，坚韧不拔，寻求突破",
+                    love: "感情陷入困境，坚韧不拔，寻求突破",
+                    wealth: "财运陷入困境，坚韧不拔，寻求突破",
+                    exam: "考试陷入困境，坚韧不拔，寻求突破",
+                    person: "寻人陷入困境，坚韧不拔，寻求突破",
+                    lost: "失物陷入困境，坚韧不拔，寻求突破",
+                    lottery: "号码可能与47、7、9相关，困境数字"
+                }
+            },
+            {
+                number: 48, 
+                name: "井卦", 
+                text: "改邑不改井，无丧无得", 
+                fortune: "稳定发展，滋润万物", 
+                advice: "保持本色，服务他人",
+                detailed: {
+                    career: "事业稳定发展，保持本色，服务他人",
+                    love: "感情稳定发展，保持本色，服务他人",
+                    wealth: "财运稳定发展，保持本色，服务他人",
+                    exam: "考试稳定发展，保持本色，服务他人",
+                    person: "寻人稳定发展，保持本色，服务他人",
+                    lost: "失物稳定发展，保持本色，服务他人",
+                    lottery: "号码可能与48、8、2相关，稳定数字"
+                }
+            },
+            {
+                number: 49, 
+                name: "革卦", 
+                text: "巳日乃孚，元亨利贞", 
+                fortune: "改革创新，破旧立新", 
+                advice: "勇于变革，顺应时代",
+                detailed: {
+                    career: "事业需要改革创新，勇于变革，顺应时代",
+                    love: "感情需要改革创新，勇于变革，顺应时代",
+                    wealth: "财运需要改革创新，勇于变革，顺应时代",
+                    exam: "考试需要改革创新，勇于变革，顺应时代",
+                    person: "寻人需要改革创新，勇于变革，顺应时代",
+                    lost: "失物需要改革创新，勇于变革，顺应时代",
+                    lottery: "号码可能与49、9、3相关，改革数字"
+                }
+            },
+            {
+                number: 50, 
+                name: "鼎卦", 
+                text: "元吉，亨", 
+                fortune: "鼎立天下，事业有成", 
+                advice: "稳重行事，担当责任",
+                detailed: {
+                    career: "事业鼎立天下，稳重行事，担当责任",
+                    love: "感情鼎立天下，稳重行事，担当责任",
+                    wealth: "财运鼎立天下，稳重行事，担当责任",
+                    exam: "考试鼎立天下，稳重行事，担当责任",
+                    person: "寻人鼎立天下，稳重行事，担当责任",
+                    lost: "失物鼎立天下，稳重行事，担当责任",
+                    lottery: "号码可能与50、0、6相关，鼎立数字"
+                }
+            },
+            {
+                number: 51, 
+                name: "震卦", 
+                text: "亨。震来虩虩，笑言哑哑", 
+                fortune: "突发事件，震惊四方", 
+                advice: "冷静应对，化险为夷",
+                detailed: {
+                    career: "事业突发变故，冷静应对，化险为夷",
+                    love: "感情突发变故，冷静应对，化险为夷",
+                    wealth: "财运突发变故，冷静应对，化险为夷",
+                    exam: "考试突发变故，冷静应对，化险为夷",
+                    person: "寻人突发变故，冷静应对，化险为夷",
+                    lost: "失物突发变故，冷静应对，化险为夷",
+                    lottery: "号码可能与51、1、7相关，震惊数字"
+                }
+            },
+            {
+                number: 52, 
+                name: "艮卦", 
+                text: "艮其背，不获其身", 
+                fortune: "适可而止，稳如泰山", 
+                advice: "知止知足，恰到好处",
+                detailed: {
+                    career: "事业适可而止，知止知足，恰到好处",
+                    love: "感情适可而止，知止知足，恰到好处",
+                    wealth: "财运适可而止，知止知足，恰到好处",
+                    exam: "考试适可而止，知止知足，恰到好处",
+                    person: "寻人适可而止，知止知足，恰到好处",
+                    lost: "失物适可而止，知止知足，恰到好处",
+                    lottery: "号码可能与52、2、8相关，止足数字"
+                }
+            },
+            {
+                number: 53, 
+                name: "渐卦", 
+                text: "女归吉，利贞", 
+                fortune: "循序渐进，稳步发展", 
+                advice: "耐心等待，自然成长",
+                detailed: {
+                    career: "事业循序渐进，耐心等待，自然成长",
+                    love: "感情循序渐进，耐心等待，自然成长",
+                    wealth: "财运循序渐进，耐心等待，自然成长",
+                    exam: "考试循序渐进，耐心等待，自然成长",
+                    person: "寻人循序渐进，耐心等待，自然成长",
+                    lost: "失物循序渐进，耐心等待，自然成长",
+                    lottery: "号码可能与53、3、9相关，渐进数字"
+                }
+            },
+            {
+                number: 54, 
+                name: "归妹卦", 
+                text: "征凶，无攸利", 
+                fortune: "婚姻嫁娶，谨慎对待", 
+                advice: "认真对待，切勿草率",
+                detailed: {
+                    career: "事业合作谨慎，认真对待，切勿草率",
+                    love: "感情婚姻谨慎，认真对待，切勿草率",
+                    wealth: "财运投资谨慎，认真对待，切勿草率",
+                    exam: "考试准备谨慎，认真对待，切勿草率",
+                    person: "寻人方法谨慎，认真对待，切勿草率",
+                    lost: "失物寻找谨慎，认真对待，切勿草率",
+                    lottery: "号码可能与54、4、6相关，谨慎数字"
+                }
+            },
+            {
+                number: 55, 
+                name: "丰卦", 
+                text: "亨，王假之，勿忧", 
+                fortune: "丰收喜悦，事业鼎盛", 
+                advice: "保持清醒，居安思危",
+                detailed: {
+                    career: "事业丰收喜悦，保持清醒，居安思危",
+                    love: "感情丰收喜悦，保持清醒，居安思危",
+                    wealth: "财运丰收喜悦，保持清醒，居安思危",
+                    exam: "考试丰收喜悦，保持清醒，居安思危",
+                    person: "寻人丰收喜悦，保持清醒，居安思危",
+                    lost: "失物丰收喜悦，保持清醒，居安思危",
+                    lottery: "号码可能与55、5、7相关，丰收数字"
+                }
+            },
+            {
+                number: 56, 
+                name: "旅卦", 
+                text: "小亨，旅贞吉", 
+                fortune: "外出旅行，漂泊不定", 
+                advice: "随遇而安，适应环境",
+                detailed: {
+                    career: "事业外出发展，随遇而安，适应环境",
+                    love: "感情异地发展，随遇而安，适应环境",
+                    wealth: "财运外出投资，随遇而安，适应环境",
+                    exam: "考试外出参考，随遇而安，适应环境",
+                    person: "寻人外出寻找，随遇而安，适应环境",
+                    lost: "失物外出寻找，随遇而安，适应环境",
+                    lottery: "号码可能与56、6、8相关，旅行数字"
+                }
+            },
+            {
+                number: 57, 
+                name: "巽卦", 
+                text: "小亨，利有攸往", 
+                fortune: "柔顺谦逊，随风而动", 
+                advice: "灵活变通，顺势而为",
+                detailed: {
+                    career: "事业柔顺谦逊，灵活变通，顺势而为",
+                    love: "感情柔顺谦逊，灵活变通，顺势而为",
+                    wealth: "财运柔顺谦逊，灵活变通，顺势而为",
+                    exam: "考试柔顺谦逊，灵活变通，顺势而为",
+                    person: "寻人柔顺谦逊，灵活变通，顺势而为",
+                    lost: "失物柔顺谦逊，灵活变通，顺势而为",
+                    lottery: "号码可能与57、7、9相关，柔顺数字"
+                }
+            },
+            {
+                number: 58, 
+                name: "兑卦", 
+                text: "亨利贞", 
+                fortune: "喜悦和谐，人际关系良好", 
+                advice: "和颜悦色，广结善缘",
+                detailed: {
+                    career: "事业喜悦和谐，和颜悦色，广结善缘",
+                    love: "感情喜悦和谐，和颜悦色，广结善缘",
+                    wealth: "财运喜悦和谐，和颜悦色，广结善缘",
+                    exam: "考试喜悦和谐，和颜悦色，广结善缘",
+                    person: "寻人喜悦和谐，和颜悦色，广结善缘",
+                    lost: "失物喜悦和谐，和颜悦色，广结善缘",
+                    lottery: "号码可能与58、8、2相关，喜悦数字"
+                }
+            },
+            {
+                number: 59, 
+                name: "涣卦", 
+                text: "亨，王假有庙", 
+                fortune: "涣散离散，重新整合", 
+                advice: "团结人心，凝聚力量",
+                detailed: {
+                    career: "事业涣散离散，团结人心，凝聚力量",
+                    love: "感情涣散离散，团结人心，凝聚力量",
+                    wealth: "财运涣散离散，团结人心，凝聚力量",
+                    exam: "考试涣散离散，团结人心，凝聚力量",
+                    person: "寻人涣散离散，团结人心，凝聚力量",
+                    lost: "失物涣散离散，团结人心，凝聚力量",
+                    lottery: "号码可能与59、9、3相关，涣散数字"
+                }
+            },
+            {
+                number: 60, 
+                name: "节卦", 
+                text: "亨。苦节不可贞", 
+                fortune: "节制适度，适可而止", 
+                advice: "修身养性，自我约束",
+                detailed: {
+                    career: "事业节制适度，修身养性，自我约束",
+                    love: "感情节制适度，修身养性，自我约束",
+                    wealth: "财运节制适度，修身养性，自我约束",
+                    exam: "考试节制适度，修身养性，自我约束",
+                    person: "寻人节制适度，修身养性，自我约束",
+                    lost: "失物节制适度，修身养性，自我约束",
+                    lottery: "号码可能与60、0、6相关，节制数字"
+                }
+            },
+            {
+                number: 61, 
+                name: "中孚卦", 
+                text: "豚鱼吉，利涉大川", 
+                fortune: "诚信为本，孚信天下", 
+                advice: "诚实守信，言行一致",
+                detailed: {
+                    career: "事业诚信为本，诚实守信，言行一致",
+                    love: "感情诚信为本，诚实守信，言行一致",
+                    wealth: "财运诚信为本，诚实守信，言行一致",
+                    exam: "考试诚信为本，诚实守信，言行一致",
+                    person: "寻人诚信为本，诚实守信，言行一致",
+                    lost: "失物诚信为本，诚实守信，言行一致",
+                    lottery: "号码可能与61、1、7相关，诚信数字"
+                }
+            },
+            {
+                number: 62, 
+                name: "小过卦", 
+                text: "亨利贞，可小事，不可大事", 
+                fortune: "小有过失，及时修正", 
+                advice: "谨小慎微，避免错误",
+                detailed: {
+                    career: "事业小有过失，谨小慎微，避免错误",
+                    love: "感情小有过失，谨小慎微，避免错误",
+                    wealth: "财运小有过失，谨小慎微，避免错误",
+                    exam: "考试小有过失，谨小慎微，避免错误",
+                    person: "寻人小有过失，谨小慎微，避免错误",
+                    lost: "失物小有过失，谨小慎微，避免错误",
+                    lottery: "号码可能与62、2、8相关，小过数字"
+                }
+            },
+            {
+                number: 63, 
+                name: "既济卦", 
+                text: "亨小，利贞", 
+                fortune: "事情成功，圆满完成", 
+                advice: "居安思危，保持警惕",
+                detailed: {
+                    career: "事业圆满完成，居安思危，保持警惕",
+                    love: "感情圆满完成，居安思危，保持警惕",
+                    wealth: "财运圆满完成，居安思危，保持警惕",
+                    exam: "考试圆满完成，居安思危，保持警惕",
+                    person: "寻人圆满完成，居安思危，保持警惕",
+                    lost: "失物圆满完成，居安思危，保持警惕",
+                    lottery: "号码可能与63、3、9相关，圆满数字"
+                }
+            },
+            {
+                number: 64, 
+                name: "未济卦", 
+                text: "亨，小狐汔济", 
+                fortune: "尚未成功，继续努力", 
+                advice: "坚持不懈，终会成功",
+                detailed: {
+                    career: "事业尚未成功，坚持不懈，终会成功",
+                    love: "感情尚未成功，坚持不懈，终会成功",
+                    wealth: "财运尚未成功，坚持不懈，终会成功",
+                    exam: "考试尚未成功，坚持不懈，终会成功",
+                    person: "寻人尚未成功，坚持不懈，终会成功",
+                    lost: "失物尚未成功，坚持不懈，终会成功",
+                    lottery: "号码可能与64、4、6相关，坚持数字"
+                }
+            }
+        ];
+
+        // 生成粒子
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // 生成随机卦象
+        function generateHexagram() {
+            const lines = [];
+            for (let i = 0; i < 6; i++) {
+                const toss = Math.floor(Math.random() * 4);
+                let lineType;
+                let isMoving = false;
+                
+                switch(toss) {
+                    case 0:
+                        lineType = 'yang';
+                        isMoving = true;
+                        break;
+                    case 1:
+                        lineType = 'yin';
+                        break;
+                    case 2:
+                        lineType = 'yang';
+                        break;
+                    case 3:
+                        lineType = 'yin';
+                        isMoving = true;
+                        break;
+                }
+                
+                lines.push({ lineType, isMoving });
+            }
+            return lines;
+        }
+
+        // 计算卦序
+        function calculateHexagramNumber(lines) {
+            let number = 1;
+            for (let i = 0; i < lines.length; i++) {
+                const lineValue = lines[i].lineType === 'yang' ? 1 : 0;
+                number += lineValue * Math.pow(2, i);
+            }
+            return Math.min(number, 64);
+        }
+
+        // 全局变量
+        let currentHexagramInfo = null;
+        let currentQuestion = 'fortune';
+        let currentLotteryType = 'ssq';
+
+        // 显示卦象
+        function displayHexagram(lines, hexagramInfo) {
+            const hexagramLines = document.getElementById('hexagram-lines');
+            hexagramLines.innerHTML = '';
+            
+            lines.forEach((line, index) => {
+                const lineElement = document.createElement('div');
+                lineElement.className = `hexagram-line ${line.lineType} ${line.isMoving ? 'moving' : ''}`;
+                lineElement.style.animationDelay = (index * 0.1) + 's';
+                
+                // 阴爻需要两个 segment
+                if (line.lineType === 'yin') {
+                    const segment1 = document.createElement('div');
+                    segment1.className = 'yin-segment';
+                    const segment2 = document.createElement('div');
+                    segment2.className = 'yin-segment';
+                    lineElement.appendChild(segment1);
+                    lineElement.appendChild(segment2);
+                }
+                
+                // 动爻标记
+                if (line.isMoving) {
+                    const movingMark = document.createElement('span');
+                    movingMark.className = 'moving-mark';
+                    movingMark.textContent = '◆';
+                    lineElement.appendChild(movingMark);
+                }
+                
+                hexagramLines.appendChild(lineElement);
+            });
+            
+            document.getElementById('hexagram-name').textContent = hexagramInfo.name;
+            document.getElementById('hexagram-number').textContent = `卦序 · ${hexagramInfo.number}`;
+            
+            const hexagramSection = document.getElementById('hexagram-section');
+            hexagramSection.classList.remove('hidden');
+            hexagramSection.classList.add('slide-up');
+            
+            currentHexagramInfo = hexagramInfo;
+            
+            // 自动显示解读
+            setTimeout(() => {
+                displayInterpretation(hexagramInfo, currentQuestion);
+            }, 300);
+        }
+
+        // 彩票配置
+        const lotteryConfig = {
+            ssq: { // 双色球
+                name: '双色球',
+                frontCount: 6, frontMax: 33, frontColor: 'red',
+                backCount: 1, backMax: 16, backColor: 'blue',
+                frontLabel: '红球', backLabel: '蓝球'
+            },
+            dlt: { // 大乐透
+                name: '大乐透',
+                frontCount: 5, frontMax: 35, frontColor: 'red',
+                backCount: 2, backMax: 12, backColor: 'blue',
+                frontLabel: '前区', backLabel: '后区'
+            },
+            pl3: { // 排列3
+                name: '排列3',
+                frontCount: 3, frontMax: 10, frontColor: 'green',
+                backCount: 0, backMax: 0, backColor: '',
+                frontLabel: '直选', backLabel: ''
+            },
+            pl5: { // 排列5
+                name: '排列5',
+                frontCount: 5, frontMax: 10, frontColor: 'purple',
+                backCount: 0, backMax: 0, backColor: '',
+                frontLabel: '直选', backLabel: ''
+            },
+            fc3d: { // 3D
+                name: '3D',
+                frontCount: 3, frontMax: 10, frontMax2: 10, frontColor: 'orange',
+                backCount: 0, backMax: 0, backColor: '',
+                frontLabel: '组三/组六', backLabel: ''
+            },
+            qlc: { // 七乐彩
+                name: '七乐彩',
+                frontCount: 7, frontMax: 30, frontColor: 'red',
+                backCount: 1, backMax: 30, backColor: 'blue',
+                frontLabel: '基本码', backLabel: '特别码'
+            },
+            scratch: { // 刮刮乐
+                name: '刮刮乐尾号',
+                frontCount: 4, frontMax: 10, frontColor: 'orange',
+                backCount: 0, backMax: 0, backColor: '',
+                frontLabel: '幸运尾号', backLabel: ''
+            }
+        };
+
+        // 生成彩票选号
+        function generateLotteryNumbers(type) {
+            const config = lotteryConfig[type];
+            const result = { type: type, name: config.name };
+
+            if (config.frontCount > 0) {
+                if (type === 'pl3' || type === 'pl5') {
+                    // 排列3/5：每位单独生成
+                    result.front = [];
+                    for (let i = 0; i < config.frontCount; i++) {
+                        result.front.push(Math.floor(Math.random() * config.frontMax));
+                    }
+                } else if (type === 'fc3d') {
+                    // 3D：生成3个数字
+                    result.front = [];
+                    for (let i = 0; i < 3; i++) {
+                        result.front.push(Math.floor(Math.random() * 10));
+                    }
+                    result.type3d = result.front[0] === result.front[1] || 
+                                   result.front[1] === result.front[2] || 
+                                   result.front[0] === result.front[2] ? '组三' : '组六';
+                } else {
+                    // 普通彩种：去重排序
+                    const numbers = [];
+                    while (numbers.length < config.frontCount) {
+                        const num = Math.floor(Math.random() * config.frontMax) + 1;
+                        if (!numbers.includes(num)) {
+                            numbers.push(num);
+                        }
+                    }
+                    numbers.sort((a, b) => a - b);
+                    result.front = numbers;
+                }
+            }
+
+            if (config.backCount > 0) {
+                const back = [];
+                while (back.length < config.backCount) {
+                    const num = Math.floor(Math.random() * config.backMax) + 1;
+                    if (!back.includes(num)) {
+                        back.push(num);
+                    }
+                }
+                back.sort((a, b) => a - b);
+                result.back = back;
+            }
+
+            // 刮刮乐特殊处理：生成尾号
+            if (type === 'scratch') {
+                const digits = [];
+                while (digits.length < 4) {
+                    const d = Math.floor(Math.random() * 10);
+                    if (!digits.includes(d)) {
+                        digits.push(d);
+                    }
+                }
+                result.front = digits;
+                result.tip = '用指甲或硬币刮开查看幸运尾号';
+            }
+
+            return result;
+        }
+
+        // 渲染彩票球
+        function renderLotteryBalls(result) {
+            const config = lotteryConfig[result.type];
+            let html = '';
+
+            if (result.front) {
+                html += `<div class="lottery-balls">`;
+                if (result.type === 'fc3d' && result.type3d) {
+                    html += `<span style="color:var(--accent);font-size:0.8rem;margin-right:8px;">${result.type3d}</span>`;
+                }
+                result.front.forEach(n => {
+                    const displayNum = String(n).padStart(2, '0');
+                    html += `<div class="lottery-ball ${config.frontColor}">${displayNum}</div>`;
+                });
+                html += `</div>`;
+                if (config.backCount > 0) {
+                    html += `<div style="margin:8px 0;color:var(--text-muted);">+</div>`;
+                }
+            }
+
+            if (result.back) {
+                html += `<div class="lottery-balls">`;
+                result.back.forEach(n => {
+                    const displayNum = String(n).padStart(2, '0');
+                    html += `<div class="lottery-ball ${config.backColor}">${displayNum}</div>`;
+                });
+                html += `</div>`;
+            }
+
+            if (result.tip) {
+                html += `<div class="scratch-tip">${result.tip}</div>`;
+            }
+
+            return html;
+        }
+
+        // 生成幸运数字
+        function generateLuckyNumber() {
+            return Math.floor(Math.random() * 99) + 1;
+        }
+
+        // 根据求测问题生成解读
+        function getPredictionInterpretation(hexagramInfo, questionType) {
+            switch(questionType) {
+                case 'lottery':
+                    const lottery = generateLotteryNumbers(currentLotteryType);
+                    const config = lotteryConfig[currentLotteryType];
+                    let fortuneText = `${config.name}选号建议：` + 
+                        (lottery.front ? lottery.front.map(n => String(n).padStart(2,'0')).join(' ') : '');
+                    if (lottery.back) {
+                        fortuneText += ' + ' + lottery.back.map(n => String(n).padStart(2,'0')).join(' ');
+                    }
+                    return {
+                        text: hexagramInfo.text,
+                        fortune: fortuneText,
+                        lotteryResult: lottery,
+                        advice: hexagramInfo.detailed.lottery || '彩票中奖概率极低，请理性购买，娱乐为主'
+                    };
+                case 'lucky-number':
+                    const luckyNumber = generateLuckyNumber();
+                    return {
+                        text: hexagramInfo.text,
+                        fortune: `您的幸运数字是：${luckyNumber}`,
+                        advice: '幸运数字仅供参考，真正的好运来自于努力和积极的心态'
+                    };
+                case 'career':
+                    return {
+                        text: hexagramInfo.text,
+                        fortune: hexagramInfo.fortune,
+                        advice: hexagramInfo.detailed.career || hexagramInfo.advice
+                    };
+                case 'love':
+                    return {
+                        text: hexagramInfo.text,
+                        fortune: hexagramInfo.fortune,
+                        advice: hexagramInfo.detailed.love || hexagramInfo.advice
+                    };
+                case 'wealth':
+                    return {
+                        text: hexagramInfo.text,
+                        fortune: hexagramInfo.fortune,
+                        advice: hexagramInfo.detailed.wealth || hexagramInfo.advice
+                    };
+                case 'exam':
+                    return {
+                        text: hexagramInfo.text,
+                        fortune: hexagramInfo.fortune,
+                        advice: hexagramInfo.detailed.exam || hexagramInfo.advice
+                    };
+                case 'person':
+                    return {
+                        text: hexagramInfo.text,
+                        fortune: hexagramInfo.fortune,
+                        advice: hexagramInfo.detailed.person || hexagramInfo.advice
+                    };
+                case 'lost':
+                    return {
+                        text: hexagramInfo.text,
+                        fortune: hexagramInfo.fortune,
+                        advice: hexagramInfo.detailed.lost || hexagramInfo.advice
+                    };
+                default: // fortune
+                    return hexagramInfo;
+            }
+        }
+
+        // 显示解读
+        function displayInterpretation(hexagramInfo, questionType) {
+            const interpretation = getPredictionInterpretation(hexagramInfo, questionType);
+
+            document.getElementById('hexagram-text').textContent = interpretation.text;
+            document.getElementById('fortune-interpretation').textContent = interpretation.fortune;
+            document.getElementById('advice').textContent = interpretation.advice;
+
+            // 彩票结果显示
+            const lotteryContainer = document.getElementById('lottery-result-container');
+            const lotteryResult = document.getElementById('lottery-result');
+            if (questionType === 'lottery' && interpretation.lotteryResult) {
+                lotteryContainer.classList.remove('hidden');
+                lotteryResult.innerHTML = renderLotteryBalls(interpretation.lotteryResult);
+            } else {
+                lotteryContainer.classList.add('hidden');
+            }
+
+            const interpretationSection = document.getElementById('interpretation-section');
+            interpretationSection.classList.remove('hidden');
+            interpretationSection.classList.add('slide-up');
+
+            // 保存历史记录
+            saveHistory(hexagramInfo, questionType);
+        }
+
+        // 保存历史记录
+        function saveHistory(hexagramInfo, questionType) {
+            let history = JSON.parse(localStorage.getItem('iChingHistory') || '[]');
+            const interpretation = getPredictionInterpretation(hexagramInfo, questionType);
+
+            // 检查是否已存在相同的最新记录
+            if (history.length > 0 &&
+                history[0].hexagram.number === hexagramInfo.number &&
+                history[0].questionType === questionType) {
+                return;
+            }
+
+            history.unshift({
+                hexagram: hexagramInfo,
+                questionType: questionType,
+                lotteryType: questionType === 'lottery' ? currentLotteryType : null,
+                lotteryResult: interpretation.lotteryResult || null,
+                interpretation: interpretation,
+                date: new Date().toLocaleString('zh-CN', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            });
+
+            if (history.length > 10) {
+                history = history.slice(0, 10);
+            }
+
+            localStorage.setItem('iChingHistory', JSON.stringify(history));
+        }
+
+        // 起卦按钮点击事件
+        document.getElementById('toss-btn').addEventListener('click', function() {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const btn = this;
+            
+            // 显示加载动画
+            loadingOverlay.classList.add('active');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="btn-icon">☯</span> 起卦中...';
+            
+            setTimeout(() => {
+                const lines = generateHexagram();
+                const number = calculateHexagramNumber(lines);
+                const hexagramInfo = hexagrams[number - 1];
+                
+                displayHexagram(lines, hexagramInfo);
+                
+                // 显示/隐藏彩种选择器
+                const lotterySelector = document.getElementById('lottery-selector');
+                if (currentQuestion === 'lottery') {
+                    lotterySelector.classList.remove('hidden');
+                } else {
+                    lotterySelector.classList.add('hidden');
+                }
+                
+                // 隐藏加载动画
+                loadingOverlay.classList.remove('active');
+                btn.disabled = false;
+                btn.innerHTML = '<span class="btn-icon">☯</span> 再次起卦';
+            }, 1500);
+        });
+
+        // 求测问题选择事件
+        document.querySelectorAll('.question-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.question-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                currentQuestion = this.dataset.question;
+            });
+        });
+
+        // 彩种选择事件
+        document.querySelectorAll('.lottery-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.lottery-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                currentLotteryType = this.dataset.lottery;
+
+                if (currentHexagramInfo && currentQuestion === 'lottery') {
+                    displayInterpretation(currentHexagramInfo, currentQuestion);
+                }
+            });
+        });
+
+        // 页面加载时初始化
+        window.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+        });
+    </script>
+</body>
+</html>
