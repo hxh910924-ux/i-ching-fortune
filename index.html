@@ -12,20 +12,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4a6fa5;
-            --primary-light: #6b93d6;
-            --accent: #e67e22;
-            --accent-light: #f39c12;
+            --primary: #8a1a1a;
+            --primary-light: #b32626;
+            --accent: #d4af37;
+            --accent-light: #f0d97e;
             --text: #333333;
             --text-muted: #666666;
-            --card-bg: #ffffff;
-            --card-border: #e9ecef;
-            --yang: #e67e22;
-            --yin: #4a6fa5;
+            --card-bg: #f9f6f0;
+            --card-border: #e8e0d0;
+            --yang: #d4af37;
+            --yin: #8a1a1a;
             --moving: #e74c3c;
-            --gradient-1: #f8f9fa;
+            --gradient-1: #f9f6f0;
             --gradient-2: #ffffff;
-            --gradient-3: #f1f3f5;
+            --gradient-3: #f0e6d2;
         }
 
         * {
@@ -67,7 +67,7 @@
             right: -20%;
             width: 80%;
             height: 150%;
-            background: radial-gradient(ellipse, rgba(74, 111, 165, 0.08) 0%, transparent 70%);
+            background: radial-gradient(ellipse, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
             animation: float 20s ease-in-out infinite;
         }
 
@@ -78,7 +78,7 @@
             left: -10%;
             width: 60%;
             height: 100%;
-            background: radial-gradient(ellipse, rgba(74, 111, 165, 0.05) 0%, transparent 60%);
+            background: radial-gradient(ellipse, rgba(212, 175, 55, 0.05) 0%, transparent 60%);
             animation: float 25s ease-in-out infinite reverse;
         }
 
@@ -102,7 +102,7 @@
             position: absolute;
             width: 2px;
             height: 2px;
-            background: var(--primary);
+            background: var(--accent);
             border-radius: 50%;
             opacity: 0.2;
             animation: particle-float 15s infinite;
@@ -135,7 +135,7 @@
         }
 
         .app-header::before {
-            content: '☯';
+            content: '周易';
             font-size: 3rem;
             color: var(--accent);
             opacity: 0.3;
@@ -177,8 +177,8 @@
         /* 卡片通用样式 */
         .card {
             background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
+            border: 2px solid var(--card-border);
+            border-radius: 8px;
             padding: 30px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -193,13 +193,24 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.8;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
             opacity: 0.8;
         }
 
         .card:hover {
-            border-color: var(--primary-light);
-            box-shadow: 0 10px 30px rgba(74, 111, 165, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
             transform: translateY(-2px);
         }
 
@@ -211,14 +222,20 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            text-align: center;
+            justify-content: center;
         }
 
         .card-title::before {
-            content: '';
-            width: 4px;
-            height: 20px;
-            background: linear-gradient(180deg, var(--primary), transparent);
-            border-radius: 2px;
+            content: '◆';
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+
+        .card-title::after {
+            content: '◆';
+            color: var(--accent);
+            font-size: 0.8rem;
         }
 
         /* 起卦区域 */
@@ -242,14 +259,14 @@
             padding: 18px 45px;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
-            border: none;
-            border-radius: 50px;
+            border: 2px solid var(--accent);
+            border-radius: 8px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(74, 111, 165, 0.3);
+            box-shadow: 0 10px 30px rgba(138, 26, 26, 0.3);
         }
 
         .toss-button::before {
@@ -265,7 +282,8 @@
 
         .toss-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(74, 111, 165, 0.4);
+            box-shadow: 0 15px 40px rgba(138, 26, 26, 0.4);
+            border-color: var(--accent-light);
         }
 
         .toss-button:hover::before {
@@ -1118,25 +1136,25 @@
                 <h2 class="card-title">运势解读</h2>
                 <div class="interpretation-content">
                     <div class="interpretation-item">
-                        <h3>📜 卦辞</h3>
+                        <h3>卦辞</h3>
                         <p id="hexagram-text">--</p>
                     </div>
                     <div class="interpretation-item">
-                        <h3>✨ 运势</h3>
+                        <h3>运势</h3>
                         <p id="fortune-interpretation">--</p>
                     </div>
                     <div class="interpretation-item hidden" id="lottery-result-container">
-                        <h3>🎰 彩票选号</h3>
+                        <h3>彩票选号</h3>
                         <div class="lottery-result" id="lottery-result"></div>
                     </div>
                     <div class="interpretation-item">
-                        <h3>💡 建议</h3>
+                        <h3>建议</h3>
                         <p id="advice">--</p>
                     </div>
                 </div>
                 <div style="text-align:center; margin-top:20px;">
                     <a href="history.html" class="history-link-btn">
-                        📜 查看历史记录
+                        查看历史记录
                     </a>
                 </div>
             </section>
