@@ -12,197 +12,198 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #8a1a1a;
-            --primary-light: #b32626;
-            --accent: #d4af37;
-            --accent-light: #f0d97e;
-            --text: #333333;
-            --text-muted: #666666;
-            --card-bg: #f9f6f0;
-            --card-border: #e8e0d0;
-            --yang: #d4af37;
-            --yin: #8a1a1a;
-            --moving: #e74c3c;
-            --gradient-1: #f9f6f0;
-            --gradient-2: #ffffff;
-            --gradient-3: #f0e6d2;
+            --ink: #1a1410;
+            --ink-light: #2a2418;
+            --paper: #f5f0e6;
+            --paper-warm: #e8dcc8;
+            --cream: #e0d5c0;
+            --cream-muted: #b8a898;
+            --cinnabar: #c2362a;
+            --cinnabar-dark: #9b1d1a;
+            --gold: #c49b3f;
+            --gold-light: #d4b760;
+            --gold-faded: #8a7040;
+            --text: #e0d5c0;
+            --text-secondary: #a89880;
+            --text-muted: #7a6a58;
+            --border: rgba(196, 155, 63, 0.12);
+            --border-glow: rgba(196, 155, 63, 0.25);
+            --card-bg: rgba(255, 248, 235, 0.04);
+            --card-hover: rgba(255, 248, 235, 0.07);
+            --shadow: 0 1px 0 rgba(196, 155, 63, 0.08);
+            --radius: 2px;
+            --radius-sm: 1px;
+            --font-display: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+            --font-body: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+            --transition: 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+            --transition-fast: 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html {
-            background: var(--gradient-1);
+            background: var(--ink);
+            font-family: var(--font-body);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background: var(--gradient-1);
             min-height: 100vh;
             min-height: 100dvh;
-            color: var(--text);
-            line-height: 1.6;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(196, 155, 63, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(194, 54, 42, 0.04) 0%, transparent 50%),
+                linear-gradient(180deg, #1a1410 0%, #14100a 40%, #1a1410 100%);
+            line-height: 1.75;
             overflow-x: hidden;
+            letter-spacing: 0.025em;
         }
 
-        /* 背景装饰 */
-        .bg-decoration {
+        /* ============ BACKGROUND TEXTURE ============ */
+        .bg-texture {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
             z-index: 0;
-            overflow: hidden;
+            opacity: 0.03;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(196, 155, 63, 0.5) 2px, rgba(196, 155, 63, 0.5) 2.5px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(196, 155, 63, 0.5) 2px, rgba(196, 155, 63, 0.5) 2.5px);
         }
 
-        .bg-decoration::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 80%;
-            height: 150%;
-            background: radial-gradient(ellipse, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
-            animation: float 20s ease-in-out infinite;
-        }
-
-        .bg-decoration::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 60%;
-            height: 100%;
-            background: radial-gradient(ellipse, rgba(212, 175, 55, 0.05) 0%, transparent 60%);
-            animation: float 25s ease-in-out infinite reverse;
-        }
-
-
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(2deg); }
-        }
-
-        /* 中国传统祥云纹样 */
-        .chinese-pattern {
+        .bg-ink-wash {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.4;
-            background-image: 
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cg fill='none' stroke='%23d4af37' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.8'%3E%3Cg transform='translate(10, 20)'%3E%3Cpath d='M 80,90 C 80,75 95,65 110,75 C 120,85 115,100 100,100 C 85,100 75,85 85,70 C 100,50 130,60 135,85 C 140,110 110,125 90,115' /%3E%3Cpath d='M 85,70 C 65,55 45,75 55,95 C 65,110 85,105 90,115' /%3E%3Cpath d='M 65,80 C 55,80 55,95 65,95' /%3E%3Cpath d='M 135,85 C 155,80 165,105 150,120 C 135,130 115,120 110,125' /%3E%3Cpath d='M 145,100 C 155,105 145,115 135,110' /%3E%3Cpath d='M 90,115 C 110,140 140,120 160,140 C 180,160 195,145 200,140' /%3E%3Cpath d='M 80,125 C 100,150 130,130 150,150 C 170,170 185,155 190,150' /%3E%3Cpath d='M 70,135 C 90,160 120,140 140,160 C 160,180 175,165 180,160' /%3E%3Cpath d='M 60,145 C 80,170 110,150 130,170 C 150,190 165,175 170,170' /%3E%3C/g%3E%3Cg transform='translate(160, 170) scale(0.8)'%3E%3Cpath d='M 80,90 C 80,75 95,65 110,75 C 120,85 115,100 100,100 C 85,100 75,85 85,70 C 100,50 130,60 135,85 C 140,110 110,125 90,115' /%3E%3Cpath d='M 85,70 C 65,55 45,75 55,95 C 65,110 85,105 90,115' /%3E%3Cpath d='M 65,80 C 55,80 55,95 65,95' /%3E%3Cpath d='M 135,85 C 155,80 165,105 150,120 C 135,130 115,120 110,125' /%3E%3Cpath d='M 145,100 C 155,105 145,115 135,110' /%3E%3Cpath d='M 90,115 C 110,140 140,120 160,140 C 180,160 195,145 200,140' /%3E%3Cpath d='M 80,125 C 100,150 130,130 150,150 C 170,170 185,155 190,150' /%3E%3Cpath d='M 70,135 C 90,160 120,140 140,160 C 160,180 175,165 180,160' /%3E%3Cpath d='M 60,145 C 80,170 110,150 130,170 C 150,190 165,175 170,170' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            background-size: 400px 400px;
-            background-repeat: repeat;
-        }
-
-        /* 粒子效果 */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--accent);
             border-radius: 50%;
-            opacity: 0.2;
-            animation: particle-float 15s infinite;
+            filter: blur(120px);
         }
 
-        @keyframes particle-float {
-            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.2; }
-            90% { opacity: 0.2; }
-            100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+        .bg-ink-wash.top {
+            top: -15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60vw;
+            height: 40vh;
+            background: radial-gradient(ellipse, rgba(196, 155, 63, 0.08) 0%, transparent 70%);
         }
 
+        .bg-ink-wash.bottom {
+            bottom: -10%;
+            right: -10%;
+            width: 50vw;
+            height: 35vh;
+            background: radial-gradient(ellipse, rgba(194, 54, 42, 0.05) 0%, transparent 60%);
+        }
+
+        /* ============ SEAL DECORATION ============ */
+        .seal-decoration {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            width: 120px;
+            height: 120px;
+            border: 1.5px solid rgba(196, 155, 63, 0.08);
+            border-radius: 50%;
+            top: 8%;
+            right: 5%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.4;
+        }
+
+        .seal-decoration::after {
+            content: '易';
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: rgba(196, 155, 63, 0.15);
+            font-weight: 700;
+        }
+
+        .seal-decoration.bottom {
+            top: auto;
+            bottom: 15%;
+            left: 4%;
+            right: auto;
+            width: 80px;
+            height: 80px;
+        }
+
+        .seal-decoration.bottom::after {
+            content: '卦';
+            font-size: 1.8rem;
+        }
+
+        /* ============ APP CONTAINER ============ */
         .app-container {
             position: relative;
             z-index: 10;
-            max-width: 900px;
+            max-width: 680px;
             margin: 0 auto;
-            padding: 0 20px 20px;
+            padding: 0 24px 60px;
             min-height: 100vh;
             min-height: 100dvh;
             display: flex;
             flex-direction: column;
         }
 
-        /* 头部 */
+        /* ============ HEADER ============ */
         .app-header {
             text-align: center;
-            padding: 60px 0 30px;
+            padding: 80px 0 40px;
             position: relative;
         }
 
-        .app-header::before {
-            content: '周易';
-            font-size: 3rem;
-            color: var(--accent);
-            opacity: 0.3;
-            display: block;
-            margin-bottom: 15px;
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.05); }
-        }
-
         .app-header h1 {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 2.2rem;
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 2.8rem);
             font-weight: 700;
-            color: var(--accent);
-            letter-spacing: 0.15em;
-            margin-bottom: 10px;
-            text-shadow: 0 0 30px rgba(201, 162, 39, 0.3);
+            color: var(--gold);
+            letter-spacing: 0.25em;
+            margin-bottom: 6px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .app-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
         }
 
         .subtitle {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             font-weight: 300;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.2em;
+            margin-top: 16px;
         }
 
-        /* 主内容区 */
+        /* ============ MAIN ============ */
         .app-main {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 20px;
         }
 
-        /* 卡片通用样式 */
+        /* ============ CARD ============ */
         .card {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px 32px;
             position: relative;
+            transition: background var(--transition-fast), border-color var(--transition-fast);
             overflow: hidden;
         }
 
@@ -213,456 +214,463 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-            opacity: 0.8;
-        }
-
-        .card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-            opacity: 0.8;
+            background: linear-gradient(90deg, transparent, var(--border-glow), transparent);
+            opacity: 0.6;
         }
 
         .card:hover {
-            background: rgba(255, 255, 255, 0.35);
-            border-color: rgba(212, 175, 55, 0.5);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
+            background: var(--card-hover);
+            border-color: var(--border-glow);
         }
 
         .card-title {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 1.3rem;
-            color: var(--primary);
-            margin-bottom: 20px;
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            color: var(--gold);
+            margin-bottom: 24px;
+            text-align: center;
+            letter-spacing: 0.15em;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
-            text-align: center;
             justify-content: center;
+            gap: 14px;
         }
 
-        .card-title::before {
-            content: '◆';
-            color: var(--accent);
-            font-size: 0.8rem;
+        .card-title::before,
+        .card-title::after {
+            content: '';
+            height: 1px;
+            width: 28px;
+            background: linear-gradient(90deg, transparent, var(--border-glow));
         }
 
         .card-title::after {
-            content: '◆';
-            color: var(--accent);
-            font-size: 0.8rem;
+            background: linear-gradient(90deg, var(--border-glow), transparent);
         }
 
-        /* 起卦区域 */
+        /* ============ TOSS SECTION ============ */
         .toss-section {
             text-align: center;
         }
 
         .toss-instruction {
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            font-size: 0.95rem;
-            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            font-size: 0.9rem;
+            line-height: 2;
+            letter-spacing: 0.05em;
         }
 
+        /* ============ QUESTION TABS ============ */
+        .question-selector {
+            margin: 28px 0;
+            padding: 24px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .question-label {
+            display: block;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-bottom: 18px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .question-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .question-tab {
+            padding: 9px 20px;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-weight: 400;
+            letter-spacing: 0.06em;
+            position: relative;
+        }
+
+        .question-tab:hover {
+            color: var(--cream);
+            border-color: var(--border);
+        }
+
+        .question-tab.active {
+            background: rgba(196, 155, 63, 0.1);
+            border-color: rgba(196, 155, 63, 0.35);
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        /* ============ TOSS BUTTON ============ */
         .toss-button {
             position: relative;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            padding: 18px 45px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            border: 2px solid var(--accent);
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            gap: 10px;
+            padding: 16px 48px;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 500;
+            font-family: var(--font-display);
+            letter-spacing: 0.12em;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all var(--transition);
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(138, 26, 26, 0.3);
+            isolation: isolate;
         }
 
         .toss-button::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s ease;
+            inset: 0;
+            background: rgba(196, 155, 63, 0.08);
+            opacity: 0;
+            transition: opacity var(--transition);
+            z-index: -1;
         }
 
         .toss-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(138, 26, 26, 0.4);
-            border-color: var(--accent-light);
-        }
-
-        .toss-button:hover::before {
-            left: 100%;
-        }
-
-        .toss-button:active {
+            border-color: var(--gold);
+            color: var(--cream);
             transform: translateY(-1px);
         }
 
+        .toss-button:hover::before {
+            opacity: 1;
+        }
+
+        .toss-button:active {
+            transform: translateY(0);
+        }
+
         .toss-button:disabled {
-            opacity: 0.7;
+            opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
 
-
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* 卦象显示区域 */
+        /* ============ HEXAGRAM DISPLAY ============ */
         .hexagram-display {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 60px;
-            padding: 30px 0;
-            flex-wrap: wrap;
+            text-align: center;
+            padding: 20px 0;
         }
 
         .hexagram-visual {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             align-items: center;
+            gap: 10px;
+            padding: 28px 0;
+            position: relative;
         }
 
+        .hexagram-visual::before,
+        .hexagram-visual::after {
+            content: '';
+            position: absolute;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-glow), transparent);
+        }
+
+        .hexagram-visual::before { top: 0; }
+        .hexagram-visual::after { bottom: 0; }
+
         .hexagram-line {
-            width: 140px;
-            height: 24px;
-            border-radius: 4px;
+            width: 200px;
+            height: 16px;
+            border-radius: 2px;
             position: relative;
-            transition: all 0.5s ease;
-            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+            animation: lineReveal 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+        }
+
+        @keyframes lineReveal {
+            from {
+                opacity: 0;
+                transform: scaleX(0.3);
+            }
+            to {
+                opacity: 1;
+                transform: scaleX(1);
+            }
         }
 
         .hexagram-line.yang {
-            background: linear-gradient(90deg, var(--yang), var(--accent-light));
-            box-shadow: 0 0 20px rgba(230, 126, 34, 0.3);
+            background: linear-gradient(90deg, rgba(196, 155, 63, 0.3), var(--gold), rgba(196, 155, 63, 0.3));
+            box-shadow: 0 0 12px rgba(196, 155, 63, 0.15);
         }
 
         .hexagram-line.yin {
-            background: transparent;
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
+            gap: 20px;
         }
 
         .hexagram-line.yin .yin-segment {
-            flex: 1;
+            width: 80px;
             height: 100%;
-            background: var(--yin);
-            border-radius: 4px;
-            border: 1px solid rgba(74, 111, 165, 0.2);
+            background: linear-gradient(90deg, rgba(196, 155, 63, 0.3), rgba(196, 155, 63, 0.6), rgba(196, 155, 63, 0.3));
+            border-radius: 2px;
         }
 
         .hexagram-line.moving {
-            animation: moving-pulse 1.5s ease-in-out infinite;
             position: relative;
         }
 
         .hexagram-line.moving .moving-mark {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: var(--moving);
-            font-size: 0.8rem;
-            text-shadow: 0 0 10px var(--moving);
-            z-index: 10;
+            right: -28px;
+            font-size: 0.7rem;
+            color: var(--cinnabar);
+            animation: markPulse 2s ease-in-out infinite;
         }
 
-        @keyframes moving-pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+        @keyframes markPulse {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
         }
 
         .hexagram-info {
-            text-align: center;
+            margin-top: 24px;
         }
 
         .hexagram-name {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 8px;
-            text-shadow: 0 0 10px rgba(74, 111, 165, 0.2);
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 0.2em;
+            margin-bottom: 6px;
         }
 
         .hexagram-number {
-            font-size: 1rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            font-weight: 300;
+            letter-spacing: 0.1em;
         }
 
-        /* 预测类型选择 */
-        .prediction-type {
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 1px solid var(--card-border);
+        /* ============ LOTTERY SELECTOR ============ */
+        .lottery-selector {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
         }
 
-        .prediction-label {
+        .lottery-label {
             display: block;
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
+            font-size: 0.8rem;
+            margin-bottom: 14px;
+            letter-spacing: 0.1em;
         }
 
-        .prediction-tabs {
+        .lottery-tabs {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
-        .prediction-tab {
-            padding: 10px 20px;
+        .lottery-tab {
+            padding: 8px 16px;
             background: transparent;
-            border: 1px solid var(--card-border);
-            border-radius: 25px;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all var(--transition-fast);
+            letter-spacing: 0.05em;
         }
 
-        .prediction-tab:hover {
-            border-color: var(--primary);
-            color: var(--primary);
+        .lottery-tab:hover {
+            color: var(--cream);
+            border-color: var(--border);
         }
 
-        .prediction-tab.active {
-            background: rgba(74, 111, 165, 0.15);
-            border-color: var(--primary);
-            color: var(--primary);
+        .lottery-tab.active {
+            background: rgba(196, 155, 63, 0.08);
+            border-color: rgba(196, 155, 63, 0.3);
+            color: var(--gold);
         }
 
-        /* 解读区域 */
+        /* ============ INTERPRETATION ============ */
         .interpretation-content {
-            display: grid;
-            gap: 20px;
-        }
-
-        .interpretation-item {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-left: 3px solid var(--accent);
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .interpretation-item:hover {
-            background: rgba(255, 255, 255, 0.35);
-            transform: translateX(5px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
         .interpretation-item h3 {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 1rem;
-            color: var(--primary);
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            color: var(--gold);
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            letter-spacing: 0.1em;
+            font-weight: 600;
         }
 
         .interpretation-item p {
-            color: var(--text);
-            line-height: 1.8;
-            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.9;
+            letter-spacing: 0.03em;
         }
 
-        .history-link-btn {
-            display: inline-flex;
+        /* ============ LOTTERY RESULT ============ */
+        .lottery-result {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
             align-items: center;
-            gap: 6px;
-            padding: 10px 22px;
-            background: #f8f9fa;
-            border: 1px solid var(--card-border);
-            border-radius: 25px;
+        }
+
+        .lottery-special-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            text-align: center;
+            letter-spacing: 0.08em;
+        }
+
+        .lottery-balls {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .lottery-ball {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            letter-spacing: 0.05em;
+            transition: transform var(--transition-fast);
+        }
+
+        .lottery-ball:hover {
+            transform: scale(1.15);
+        }
+
+        .lottery-ball.red {
+            background: rgba(194, 54, 42, 0.2);
+            color: #e07060;
+            border: 1px solid rgba(194, 54, 42, 0.3);
+        }
+
+        .lottery-ball.blue {
+            background: rgba(60, 100, 160, 0.2);
+            color: #7090c0;
+            border: 1px solid rgba(60, 100, 160, 0.3);
+        }
+
+        .lottery-ball.green {
+            background: rgba(50, 140, 90, 0.2);
+            color: #60b080;
+            border: 1px solid rgba(50, 140, 90, 0.3);
+        }
+
+        .lottery-ball.purple {
+            background: rgba(120, 60, 160, 0.2);
+            color: #a080c0;
+            border: 1px solid rgba(120, 60, 160, 0.3);
+        }
+
+        .lottery-ball.orange {
+            background: rgba(200, 120, 40, 0.2);
+            color: #d0a060;
+            border: 1px solid rgba(200, 120, 40, 0.3);
+        }
+
+        .scratch-tip {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* ============ HISTORY LINK ============ */
+        .history-link-btn {
+            display: inline-block;
+            padding: 10px 28px;
             color: var(--text-muted);
             font-size: 0.85rem;
             text-decoration: none;
-            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+            letter-spacing: 0.08em;
         }
 
         .history-link-btn:hover {
-            background: rgba(74, 111, 165, 0.1);
-            border-color: var(--primary);
-            color: var(--primary);
+            color: var(--gold);
+            border-color: var(--border-glow);
         }
 
-        /* 历史记录 */
-        /* 页脚 */
+        /* ============ FOOTER ============ */
         .app-footer {
             text-align: center;
-            padding: 30px 0;
+            padding: 50px 0 30px;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            font-weight: 300;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            opacity: 0.5;
         }
 
-        /* 动画 */
-        .fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
-            opacity: 0;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .slide-up {
-            animation: slideUp 0.5s ease-out forwards;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* 响应式 */
-        @media (max-width: 768px) {
-            .app-header h1 {
-                font-size: 1.8rem;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            .hexagram-display {
-                flex-direction: column;
-                gap: 25px;
-                padding: 20px 0;
-            }
-
-            .hexagram-visual {
-                padding: 20px;
-                gap: 10px;
-                width: 100%;
-                max-width: 200px;
-            }
-
-            .hexagram-line {
-                width: 100%;
-                max-width: 140px;
-                height: 18px;
-            }
-
-            .hexagram-name {
-                font-size: 1.8rem;
-            }
-
-            .hexagram-number {
-                font-size: 0.9rem;
-            }
-
-            .prediction-tabs {
-                gap: 8px;
-            }
-
-            .prediction-tab {
-                padding: 8px 15px;
-                font-size: 0.85rem;
-            }
-
-            .toss-button {
-                padding: 16px 35px;
-                font-size: 1rem;
-            }
-
-            .interpretation-item {
-                padding: 15px;
-            }
-
-            /* 手机端沉浸感优化 */
-            .app-container {
-                padding: 0 15px 15px;
-            }
-
-            .app-header {
-                padding-top: 50px;
-            }
-
-            .card {
-                border-radius: 16px;
-            }
-        }
-
-        /* 加载动画 */
+        /* ============ LOADING OVERLAY ============ */
         .loading-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            inset: 0;
+            z-index: 1000;
+            background: rgba(26, 20, 16, 0.92);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
             opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .loading-overlay.active {
             opacity: 1;
-            visibility: visible;
+            pointer-events: all;
         }
 
         .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 3px solid rgba(74, 111, 165, 0.2);
-            border-top-color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--border);
+            border-top-color: var(--gold);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -673,420 +681,104 @@
 
         .loading-text {
             margin-top: 20px;
-            color: var(--primary);
+            font-family: var(--font-display);
+            color: var(--gold);
             font-size: 1rem;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
+            animation: loadingFade 1.5s ease-in-out infinite;
         }
 
-        /* 隐藏元素 */
-        .hidden {
-            display: none !important;
-        }
-        /* 彩种选择器 */
-        .lottery-selector {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed var(--card-border);
+        @keyframes loadingFade {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
-        .lottery-label {
-            display: block;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 10px;
+        /* ============ UTILITY ============ */
+        .hidden { display: none !important; }
+
+        .slide-up {
+            animation: slideUp 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) both;
         }
 
-        .lottery-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .lottery-tab {
-            padding: 6px 14px;
-            background: transparent;
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .lottery-tab:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .lottery-tab.active {
-            background: rgba(201, 162, 39, 0.2);
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .lottery-result {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .lottery-balls {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 8px;
-        }
-
-        .lottery-ball {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #fff;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-        }
-
-        .lottery-ball.red {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
-        }
-
-        .lottery-ball.blue {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
-        }
-
-        .lottery-ball.green {
-            background: linear-gradient(135deg, #27ae60, #1e8449);
-            box-shadow: 0 2px 8px rgba(39, 174, 96, 0.4);
-        }
-
-        .lottery-ball.purple {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            box-shadow: 0 2px 8px rgba(155, 89, 182, 0.4);
-        }
-
-        .lottery-ball.orange {
-            background: linear-gradient(135deg, #e67e22, #d35400);
-            box-shadow: 0 2px 8px rgba(230, 126, 34, 0.4);
-        }
-
-        .lottery-divider {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            margin: 0 5px;
-            align-self: center;
-        }
-
-        .lottery-special-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 5px;
-        }
-
-        .scratch-tip {
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-align: center;
-        }
-
-        /* 求测问题选择器 */
-        .question-selector {
-            margin: 30px 0;
-            padding: 25px;
-            background: #f8f9fa;
-            border-radius: 16px;
-            border: 1px solid var(--card-border);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .question-label {
-            display: block;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-        }
-
-        .question-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            padding: 0 10px;
-        }
-
-        .question-tab {
-            padding: 12px 22px;
-            background: transparent;
-            border: 1px solid var(--card-border);
-            border-radius: 25px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 400;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .question-tab:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .question-tab.active {
-            background: linear-gradient(135deg, rgba(74, 111, 165, 0.2), rgba(74, 111, 165, 0.1));
-            border-color: var(--primary);
-            color: var(--primary);
-            font-weight: 500;
-            box-shadow: 0 5px 15px rgba(74, 111, 165, 0.2);
-        }
-
-        .question-tab.active::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(74, 111, 165, 0.1), transparent);
-            animation: shine 2s ease-in-out infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* 彩种选择器 */
-        .lottery-selector {
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 1px solid var(--card-border);
-        }
-
-        .lottery-label {
-            display: block;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-
-        .lottery-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .lottery-tab {
-            padding: 10px 18px;
-            background: transparent;
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .lottery-tab:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .lottery-tab.active {
-            background: rgba(201, 162, 39, 0.2);
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .app-header {
-                padding: 40px 0 20px;
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-
-            .app-header h1 {
-                font-size: 1.8rem;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            .hexagram-visual {
-                padding: 20px;
-            }
-
-            .hexagram-line {
-                width: 120px;
-                height: 20px;
-            }
-
-            .hexagram-name {
-                font-size: 2rem;
-            }
-
-            .toss-button {
-                padding: 16px 35px;
-                font-size: 1rem;
-            }
-
-            .question-selector {
-                padding: 20px 15px;
-                margin: 25px 0;
-            }
-
-            .question-tabs {
-                gap: 8px;
-                padding: 0 5px;
-            }
-
-            .question-tab {
-                padding: 10px 18px;
-                font-size: 0.85rem;
-            }
-
-            .lottery-tabs {
-                gap: 8px;
-                padding: 0 5px;
-            }
-
-            .lottery-tab {
-                padding: 8px 15px;
-                font-size: 0.8rem;
-            }
-
-            .prediction-result {
-                padding: 20px;
-            }
-
-            .result-item {
-                margin-bottom: 15px;
-            }
-
-            .history-item {
-                padding: 15px;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        @media (max-width: 480px) {
-            .app-header h1 {
-                font-size: 1.5rem;
-            }
-
-            .hexagram-visual {
-                padding: 15px;
-            }
-
-            .hexagram-line {
-                width: 100px;
-                height: 18px;
-            }
-
-            .hexagram-name {
-                font-size: 1.8rem;
-            }
-
-            .question-tab {
-                padding: 8px 15px;
-                font-size: 0.8rem;
-            }
-
-            .toss-instruction {
-                font-size: 0.85rem;
-            }
-        }
-
-        /* 微交互优化 */
-        .card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            border-color: rgba(201, 162, 39, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .hexagram-line {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .hexagram-line.yang:hover {
-            box-shadow: 0 0 30px rgba(201, 162, 39, 0.6);
-            transform: scale(1.05);
-        }
-
-        .hexagram-line.yin:hover {
-            transform: scale(1.05);
-        }
-
-        /* 滚动条样式 */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
+        /* ============ SCROLLBAR ============ */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb {
-            background: rgba(201, 162, 39, 0.5);
-            border-radius: 4px;
+            background: rgba(196, 155, 63, 0.2);
+            border-radius: 2px;
         }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(196, 155, 63, 0.35); }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(201, 162, 39, 0.7);
-        }
-
-        /* 选择文本样式 */
+        /* ============ SELECTION ============ */
         ::selection {
-            background: rgba(201, 162, 39, 0.3);
-            color: var(--accent);
+            background: rgba(196, 155, 63, 0.25);
+            color: var(--cream);
         }
 
-        /* 焦点样式 */
-        *:focus {
-            outline: 2px solid var(--accent);
+        /* ============ FOCUS ============ */
+        *:focus-visible {
+            outline: 1px solid var(--gold);
             outline-offset: 2px;
         }
 
-        /* 无障碍支持 */
+        /* ============ REDUCED MOTION ============ */
         @media (prefers-reduced-motion: reduce) {
-            * {
+            *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
         }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .app-header { padding: 50px 0 28px; }
+            .app-header h1 { font-size: 1.8rem; }
+            .card { padding: 28px 20px; }
+            .hexagram-line { width: 150px; }
+            .hexagram-line.yin .yin-segment { width: 60px; }
+            .hexagram-name { font-size: 2rem; }
+            .toss-button { padding: 14px 36px; font-size: 0.95rem; }
+            .question-tab { padding: 8px 15px; font-size: 0.8rem; }
+            .seal-decoration { width: 80px; height: 80px; }
+            .seal-decoration::after { font-size: 1.8rem; }
+            .seal-decoration.bottom { width: 60px; height: 60px; }
+            .seal-decoration.bottom::after { font-size: 1.4rem; }
+        }
+
+        @media (max-width: 480px) {
+            .app-header h1 { font-size: 1.5rem; }
+            .card { padding: 22px 16px; }
+            .hexagram-line { width: 120px; height: 12px; }
+            .hexagram-line.yin .yin-segment { width: 48px; }
+            .hexagram-name { font-size: 1.6rem; }
+            .question-tab { padding: 7px 12px; font-size: 0.75rem; }
+            .toss-instruction { font-size: 0.8rem; }
+            .interpretation-item p { font-size: 0.85rem; }
+            .lottery-ball { width: 32px; height: 32px; font-size: 0.75rem; }
+            .seal-decoration { display: none; }
+        }
+
     </style>
 </head>
 <body>
-    <!-- 背景装饰 -->
-    <div class="bg-decoration"></div>
-    
-    <!-- 中国传统祥云纹样 -->
-    <div class="chinese-pattern"></div>
-    
-    <!-- 粒子效果 -->
-    <div class="particles" id="particles"></div>
+    <!-- 背景层 -->
+    <div class="bg-texture"></div>
+    <div class="bg-ink-wash top"></div>
+    <div class="bg-ink-wash bottom"></div>
+    <div class="seal-decoration"></div>
+    <div class="seal-decoration bottom"></div>
 
     <!-- 加载遮罩 -->
     <div class="loading-overlay" id="loading-overlay">
@@ -1173,7 +865,7 @@
                         <p id="advice">--</p>
                     </div>
                 </div>
-                <div style="text-align:center; margin-top:20px;">
+                <div style="text-align:center; margin-top:24px;">
                     <a href="history.html" class="history-link-btn">
                         查看历史记录
                     </a>
@@ -2216,19 +1908,6 @@
             }
         ];
 
-        // 生成粒子
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-                container.appendChild(particle);
-            }
-        }
-
         // 生成随机卦象
         function generateHexagram() {
             const lines = [];
@@ -2661,7 +2340,6 @@
 
         // 页面加载时初始化
         window.addEventListener('DOMContentLoaded', function() {
-            createParticles();
         });
     </script>
 </body>
