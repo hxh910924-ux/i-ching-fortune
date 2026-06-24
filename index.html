@@ -770,7 +770,453 @@
             .seal-decoration { display: none; }
         }
 
+    
+        /* ============ MODE TOGGLE ============ */
+        .mode-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .mode-toggle button {
+            padding: 10px 24px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            letter-spacing: 0.06em;
+            font-family: var(--font-body);
+        }
+        .mode-toggle button:first-child { border-right: 1px solid var(--border); }
+        .mode-toggle button.active {
+            background: rgba(196, 155, 63, 0.1);
+            color: var(--gold);
+        }
+        .mode-toggle button:hover { color: var(--cream); }
+
+        /* ============ MANUAL TOSS ============ */
+        .manual-toss-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .coin-btn {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3a3020, #5a4a30);
+            border: 2px solid var(--border-glow);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--gold);
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+        .coin-btn:hover {
+            transform: scale(1.08);
+            border-color: var(--gold);
+            box-shadow: 0 6px 30px rgba(196, 155, 63, 0.2);
+        }
+        .coin-btn:active { transform: scale(0.95); }
+        .coin-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .coin-btn.tossing {
+            animation: coinShake 0.6s ease-in-out;
+        }
+        @keyframes coinShake {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-30deg) scale(1.1); }
+            50% { transform: rotate(20deg) scale(1.05); }
+            75% { transform: rotate(-10deg) scale(1.08); }
+        }
+        .toss-progress {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .toss-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all var(--transition-fast);
+        }
+        .toss-dot.done { background: var(--gold); }
+        .toss-dot.moving { background: var(--cinnabar); }
+
+        /* ============ ZHI HEXAGRAM ============ */
+        .zhi-hexagram-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+        .zhi-label {
+            text-align: center;
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            color: var(--cinnabar);
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+        .hexagram-compare {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .hexagram-col {
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+        }
+        .hexagram-col .col-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+
+        /* ============ YAO LIST ============ */
+        .yao-list {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        .yao-list-title {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--gold);
+            text-align: center;
+            letter-spacing: 0.1em;
+            margin-bottom: 14px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .yao-list-title:hover { color: var(--cream); }
+        .yao-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(196, 155, 63, 0.06);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .yao-item:hover { background: rgba(196, 155, 63, 0.04); }
+        .yao-item .yao-pos {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            color: var(--gold);
+            min-width: 36px;
+            white-space: nowrap;
+        }
+        .yao-item .yao-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            flex: 1;
+            line-height: 1.7;
+        }
+        .yao-item.moving-line {
+            border-left: 2px solid var(--cinnabar);
+            background: rgba(194, 54, 42, 0.04);
+        }
+        .yao-item.moving-line .yao-pos { color: var(--cinnabar); }
+
+        /* ============ NAJIA TABLE ============ */
+        .najia-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        .najia-title {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--gold);
+            text-align: center;
+            letter-spacing: 0.1em;
+            margin-bottom: 14px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .najia-title:hover { color: var(--cream); }
+        .najia-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+        .najia-table th {
+            color: var(--text-muted);
+            font-weight: 400;
+            padding: 8px 6px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+            letter-spacing: 0.05em;
+        }
+        .najia-table td {
+            padding: 7px 6px;
+            text-align: center;
+            color: var(--text-secondary);
+            border-bottom: 1px solid rgba(196, 155, 63, 0.04);
+        }
+        .najia-table .shi-row { color: var(--gold); font-weight: 500; }
+        .najia-table .ying-row { color: var(--cream); }
+        .najia-table .shi-mark { color: var(--cinnabar); font-size: 0.7rem; }
+        .najia-info {
+            text-align: center;
+            margin-bottom: 14px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+        }
+        .najia-info span { color: var(--gold); margin: 0 4px; }
+
+        /* ============ SHARE MODAL ============ */
+        .share-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(26, 20, 16, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+        .share-modal.active { opacity: 1; pointer-events: all; }
+        .share-modal img {
+            max-width: 85vw;
+            max-height: 60vh;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .share-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .share-actions button {
+            padding: 10px 24px;
+            background: transparent;
+            border: 1px solid var(--border-glow);
+            color: var(--gold);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            transition: all var(--transition-fast);
+            font-family: var(--font-body);
+        }
+        .share-actions button:hover {
+            background: rgba(196, 155, 63, 0.1);
+            border-color: var(--gold);
+        }
+        .share-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+        }
+        .share-close:hover { color: var(--cream); border-color: var(--border-glow); }
+
+        /* ============ DAILY HEXAGRAM ============ */
+        .daily-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .daily-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(196, 155, 63, 0.06);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.06em;
+        }
+        .daily-badge:hover {
+            border-color: var(--border-glow);
+            color: var(--gold);
+            background: rgba(196, 155, 63, 0.1);
+        }
+        .daily-badge .daily-icon { font-size: 1.1rem; }
+
+        /* ============ COLLECTION ============ */
+        .collection-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .collection-tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            letter-spacing: 0.06em;
+            font-family: var(--font-body);
+        }
+        .collection-tab.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+        .collection-tab:hover { color: var(--cream); }
+        .collection-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .collection-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: rgba(196, 155, 63, 0.03);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+            gap: 12px;
+        }
+        .collection-item:hover { border-color: var(--border-glow); }
+        .collection-item .col-name {
+            font-family: var(--font-display);
+            color: var(--gold);
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+        }
+        .collection-item .col-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .collection-item .col-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .collection-item .col-actions button {
+            padding: 4px 10px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+            letter-spacing: 0.05em;
+        }
+        .collection-item .col-actions button:hover {
+            color: var(--gold);
+            border-color: var(--border-glow);
+        }
+        .collection-item .col-actions button.danger { color: var(--cinnabar); border-color: rgba(194, 54, 42, 0.3); }
+        .collection-item .col-actions button.danger:hover { border-color: var(--cinnabar); }
+        .compare-section {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .compare-section .compare-card {
+            flex: 1;
+            min-width: 140px;
+            padding: 16px;
+            background: rgba(196, 155, 63, 0.03);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            text-align: center;
+        }
+        .compare-section .compare-card .c-name {
+            font-family: var(--font-display);
+            color: var(--gold);
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+        }
+        .compare-section .compare-card .c-text {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ============ ACTION BAR ============ */
+        .action-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .action-btn {
+            padding: 8px 18px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+            letter-spacing: 0.06em;
+            font-family: var(--font-body);
+        }
+        .action-btn:hover {
+            color: var(--gold);
+            border-color: var(--border-glow);
+        }
+        .action-btn.saved { color: var(--gold); border-color: var(--gold); }
+
+        /* ============ RESPONSIVE ADDITIONS ============ */
+        @media (max-width: 768px) {
+            .hexagram-compare { gap: 12px; }
+            .hexagram-col { min-width: 110px; }
+            .share-modal img { max-width: 90vw; }
+            .najia-table { font-size: 0.7rem; }
+            .najia-table th, .najia-table td { padding: 5px 3px; }
+            .action-bar { gap: 8px; }
+            .action-btn { padding: 6px 14px; font-size: 0.75rem; }
+        }
+
     </style>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
     <!-- 背景层 -->
@@ -783,8 +1229,20 @@
     <!-- 加载遮罩 -->
     <div class="loading-overlay" id="loading-overlay">
         <div class="loading-spinner"></div>
-        <div class="loading-text">起卦中...</div>
+        <div class="loading-text" id="loading-text">起卦中...</div>
     </div>
+
+    <!-- 分享弹窗 -->
+    <div class="share-modal" id="share-modal">
+        <button class="share-close" id="share-close">&times;</button>
+        <img id="share-image" src="" alt="分享卡片" />
+        <div class="share-actions">
+            <button id="share-download">下载图片</button>
+            <button id="share-copy">复制图片</button>
+        </div>
+    </div>
+
+    <canvas id="share-canvas" width="600" height="800" style="display:none;"></canvas>
 
     <div class="app-container">
         <header class="app-header">
@@ -793,13 +1251,38 @@
         </header>
 
         <main class="app-main">
+            <!-- 每日一卦 -->
+            <div class="daily-section">
+                <button class="daily-badge" id="daily-btn">
+                    <span class="daily-icon">&#9728;</span>
+                    <span id="daily-label">今日卦象</span>
+                </button>
+            </div>
+
             <!-- 起卦区域 -->
             <section class="card toss-section">
                 <h2 class="card-title">起卦</h2>
                 <p class="toss-instruction">
-                    心诚则灵，默念所求之事<br>
-                    选择求测问题，点击下方按钮开始起卦
+                    心诚则灵，默念所求之事
                 </p>
+
+                <!-- 模式切换 -->
+                <div class="mode-toggle" id="mode-toggle">
+                    <button class="active" data-mode="auto">一键起卦</button>
+                    <button data-mode="manual">手动摇卦</button>
+                </div>
+
+                <!-- 手动摇卦区域 -->
+                <div class="manual-toss-area hidden" id="manual-toss-area">
+                    <button class="coin-btn" id="coin-btn" title="点击摇卦">&#9783;</button>
+                    <p style="font-size:0.8rem;color:var(--text-muted);">点击铜钱摇卦（共6次）</p>
+                    <div class="toss-progress" id="toss-progress">
+                        <span class="toss-dot"></span><span class="toss-dot"></span>
+                        <span class="toss-dot"></span><span class="toss-dot"></span>
+                        <span class="toss-dot"></span><span class="toss-dot"></span>
+                    </div>
+                </div>
+
                 <div class="question-selector">
                     <span class="question-label">选择求测问题</span>
                     <div class="question-tabs">
@@ -813,23 +1296,53 @@
                         <button class="question-tab" data-question="lottery">彩票选号</button>
                     </div>
                 </div>
-                <button id="toss-btn" class="toss-button">
-                    开始起卦
-                </button>
+                <button id="toss-btn" class="toss-button">开始起卦</button>
             </section>
 
             <!-- 卦象显示 -->
             <section class="card hidden" id="hexagram-section">
                 <h2 class="card-title">卦象</h2>
                 <div class="hexagram-display">
-                    <div class="hexagram-visual" id="hexagram-lines">
-                        <!-- 六爻卦线将在这里动态生成 -->
-                    </div>
+                    <div class="hexagram-visual" id="hexagram-lines"></div>
                     <div class="hexagram-info">
                         <div class="hexagram-name" id="hexagram-name">--</div>
                         <div class="hexagram-number" id="hexagram-number">卦序 · --</div>
                     </div>
                 </div>
+
+                <!-- 之卦 -->
+                <div class="zhi-hexagram-section hidden" id="zhi-hexagram-section">
+                    <div class="zhi-label">之卦</div>
+                    <div class="hexagram-display">
+                        <div class="hexagram-visual" id="zhi-hexagram-lines"></div>
+                        <div class="hexagram-info">
+                            <div class="hexagram-name" id="zhi-hexagram-name">--</div>
+                            <div class="hexagram-number" id="zhi-hexagram-number">卦序 · --</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 爻辞 -->
+                <div class="yao-list hidden" id="yao-list">
+                    <div class="yao-list-title" id="yao-list-toggle">爻辞解读 ▼</div>
+                    <div id="yao-list-content"></div>
+                </div>
+
+                <!-- 纳甲 -->
+                <div class="najia-section hidden" id="najia-section">
+                    <div class="najia-title" id="najia-toggle">纳甲装卦 ▼</div>
+                    <div class="najia-info" id="najia-info"></div>
+                    <div style="overflow-x:auto;">
+                        <table class="najia-table" id="najia-table"></table>
+                    </div>
+                </div>
+
+                <!-- 操作栏 -->
+                <div class="action-bar">
+                    <button class="action-btn" id="save-btn">收藏</button>
+                    <button class="action-btn" id="share-btn">分享</button>
+                </div>
+
                 <div class="lottery-selector hidden" id="lottery-selector">
                     <span class="lottery-label">选择彩种</span>
                     <div class="lottery-tabs">
@@ -865,10 +1378,39 @@
                         <p id="advice">--</p>
                     </div>
                 </div>
+
+                <!-- 之卦解读 -->
+                <div class="interpretation-content hidden" id="zhi-interpretation-content" style="margin-top:24px; padding-top:20px; border-top:1px solid var(--border);">
+                    <div class="interpretation-item">
+                        <h3 style="color:var(--cinnabar);">之卦 · 卦辞</h3>
+                        <p id="zhi-hexagram-text">--</p>
+                    </div>
+                    <div class="interpretation-item">
+                        <h3 style="color:var(--cinnabar);">之卦 · 运势</h3>
+                        <p id="zhi-fortune">--</p>
+                    </div>
+                </div>
+
                 <div style="text-align:center; margin-top:24px;">
-                    <a href="history.html" class="history-link-btn">
-                        查看历史记录
-                    </a>
+                    <a href="history.html" class="history-link-btn">查看历史记录</a>
+                </div>
+            </section>
+
+            <!-- 收藏/对比 -->
+            <section class="card hidden" id="collection-section">
+                <h2 class="card-title">我的收藏</h2>
+                <div class="collection-tabs" id="collection-tabs">
+                    <button class="collection-tab active" data-coltab="list">收藏列表</button>
+                    <button class="collection-tab" data-coltab="compare">对比卦象</button>
+                </div>
+                <div class="collection-list" id="collection-list"></div>
+                <div class="compare-section hidden" id="compare-section">
+                    <div class="compare-card" id="compare-card-1">
+                        <p style="color:var(--text-muted);font-size:0.8rem;">选择对比卦象</p>
+                    </div>
+                    <div class="compare-card" id="compare-card-2">
+                        <p style="color:var(--text-muted);font-size:0.8rem;">选择对比卦象</p>
+                    </div>
                 </div>
             </section>
 
@@ -1908,6 +2450,9 @@
             }
         ];
 
+const yaoTexts = {"1": ["初九：潜龙勿用。", "九二：见龙在田，利见大人。", "九三：君子终日乾乾，夕惕若厉，无咎。", "九四：或跃在渊，无咎。", "九五：飞龙在天，利见大人。", "上九：亢龙有悔。"], "2": ["初六：履霜，坚冰至。", "六二：直方大，不习无不利。", "六三：含章可贞，或从王事，无成有终。", "六四：括囊，无咎无誉。", "六五：黄裳，元吉。", "上六：龙战于野，其血玄黄。"], "3": ["初九：磐桓，利居贞，利建侯。", "六二：屯如邅如，乘马班如。匪寇婚媾，女子贞不字，十年乃字。", "六三：即鹿无虞，惟入于林中，君子几不如舍，往吝。", "六四：乘马班如，求婚媾，往吉，无不利。", "九五：屯其膏，小贞吉，大贞凶。", "上六：乘马班如，泣血涟如。"], "4": ["初六：发蒙，利用刑人，用说桎梏，以往吝。", "九二：包蒙，吉。纳妇，吉。子克家。", "六三：勿用取女，见金夫，不有躬，无攸利。", "六四：困蒙，吝。", "六五：童蒙，吉。", "上九：击蒙，不利为寇，利御寇。"], "5": ["初九：需于郊，利用恒，无咎。", "九二：需于沙，小有言，终吉。", "九三：需于泥，致寇至。", "六四：需于血，出自穴。", "九五：需于酒食，贞吉。", "上六：入于穴，有不速之客三人来，敬之终吉。"], "6": ["初六：不永所事，小有言，终吉。", "九二：不克讼，归而逋，其邑人三百户，无眚。", "六三：食旧德，贞厉，终吉。或从王事，无成。", "九四：不克讼，复即命，渝安贞，吉。", "九五：讼，元吉。", "上九：或锡之鞶带，终朝三褫之。"], "7": ["初六：师出以律，否臧凶。", "九二：在师中，吉，无咎。王三锡命。", "六三：师或舆尸，凶。", "六四：师左次，无咎。", "六五：田有禽，利执言，无咎。长子帅师，弟子舆尸，贞凶。", "上六：大君有命，开国承家，小人勿用。"], "8": ["初六：有孚比之，无咎。有孚盈缶，终来有它，吉。", "六二：比之自内，贞吉。", "六三：比之匪人。", "六四：外比之，贞吉。", "九五：显比，王用三驱，失前禽。邑人不诫，吉。", "上六：比之无首，凶。"], "9": ["初九：复自道，何其咎？吉。", "九二：牵复，吉。", "九三：舆说辐，夫妻反目。", "六四：有孚，血去惕出，无咎。", "九五：有孚挛如，富以其邻。", "上九：既雨既处，尚德载。妇贞厉，月几望，君子征凶。"], "10": ["初九：素履，往无咎。", "九二：履道坦坦，幽人贞吉。", "六三：眇能视，跛能履，履虎尾，咥人，凶。武人为于大君。", "九四：履虎尾，愬愬，终吉。", "九五：夬履，贞厉。", "上九：视履考祥，其旋元吉。"], "11": ["初九：拔茅茹，以其汇，征吉。", "九二：包荒，用冯河，不遐遗，朋亡，得尚于中行。", "九三：无平不陂，无往不复，艰贞无咎。勿恤其孚，于食有福。", "六四：翩翩，不富以其邻，不戒以孚。", "六五：帝乙归妹，以祉元吉。", "上六：城复于隍，勿用师，自邑告命，贞吝。"], "12": ["初六：拔茅茹，以其汇，贞吉，亨。", "六二：包承，小人吉，大人否，亨。", "六三：包羞。", "九四：有命无咎，畴离祉。", "九五：休否，大人吉。其亡其亡，系于苞桑。", "上九：倾否，先否后喜。"], "13": ["初九：同人于门，无咎。", "六二：同人于宗，吝。", "九三：伏戎于莽，升其高陵，三岁不兴。", "九四：乘其墉，弗克攻，吉。", "九五：同人先号咷而后笑，大师克相遇。", "上九：同人于郊，无悔。"], "14": ["初九：无交害，匪咎，艰则无咎。", "九二：大车以载，有攸往，无咎。", "九三：公用亨于天子，小人弗克。", "九四：匪其彭，无咎。", "六五：厥孚交如，威如，吉。", "上九：自天佑之，吉，无不利。"], "15": ["初六：谦谦君子，用涉大川，吉。", "六二：鸣谦，贞吉。", "九三：劳谦，君子有终，吉。", "六四：无不利，撝谦。", "六五：不富以其邻，利用侵伐，无不利。", "上六：鸣谦，利用行师，征邑国。"], "16": ["初六：鸣豫，凶。", "六二：介于石，不终日，贞吉。", "六三：盱豫，悔。迟有悔。", "九四：由豫，大有得。勿疑，朋盍簪。", "六五：贞疾，恒不死。", "上六：冥豫，成有渝，无咎。"], "17": ["初九：官有渝，贞吉。出门交有功。", "六二：系小子，失丈夫。", "六三：系丈夫，失小子。随有求得，利居贞。", "九四：随有获，贞凶。有孚在道，以明，何咎？", "九五：孚于嘉，吉。", "上六：拘系之，乃从维之。王用亨于西山。"], "18": ["初六：干父之蛊，有子，考无咎，厉终吉。", "九二：干母之蛊，不可贞。", "九三：干父之蛊，小有悔，无大咎。", "六四：裕父之蛊，往见吝。", "六五：干父之蛊，用誉。", "上九：不事王侯，高尚其事。"], "19": ["初九：咸临，贞吉。", "九二：咸临，吉，无不利。", "六三：甘临，无攸利。既忧之，无咎。", "六四：至临，无咎。", "六五：知临，大君之宜，吉。", "上六：敦临，吉，无咎。"], "20": ["初六：童观，小人无咎，君子吝。", "六二：窥观，利女贞。", "六三：观我生，进退。", "六四：观国之光，利用宾于王。", "九五：观我生，君子无咎。", "上九：观其生，君子无咎。"], "21": ["初九：屦校灭趾，无咎。", "六二：噬肤灭鼻，无咎。", "六三：噬腊肉，遇毒，小吝，无咎。", "九四：噬干胏，得金矢，利艰贞，吉。", "六五：噬干肉，得黄金，贞厉，无咎。", "上九：何校灭耳，凶。"], "22": ["初九：贲其趾，舍车而徒。", "六二：贲其须。", "九三：贲如濡如，永贞吉。", "六四：贲如皤如，白马翰如，匪寇婚媾。", "六五：贲于丘园，束帛戋戋，吝，终吉。", "上九：白贲，无咎。"], "23": ["初六：剥床以足，蔑贞凶。", "六二：剥床以辨，蔑贞凶。", "六三：剥之，无咎。", "六四：剥床以肤，凶。", "六五：贯鱼，以宫人宠，无不利。", "上九：硕果不食，君子得舆，小人剥庐。"], "24": ["初九：不远复，无祗悔，元吉。", "六二：休复，吉。", "六三：频复，厉，无咎。", "六四：中行独复。", "六五：敦复，无悔。", "上六：迷复，凶，有灾眚。用行师，终有大败，以其国君，凶。至于十年，不克征。"], "25": ["初九：无妄，往吉。", "六二：不耕获，不菑畲，则利有攸往。", "六三：无妄之灾，或系之牛，行人之得，邑人之灾。", "九四：可贞，无咎。", "九五：无妄之疾，勿药有喜。", "上九：无妄，行有眚，无攸利。"], "26": ["初九：有厉，利已。", "九二：舆说辐。", "九三：良马逐，利艰贞。曰闲舆卫，利有攸往。", "六四：童牛之牿，元吉。", "六五：豮豕之牙，吉。", "上九：何天之衢，亨。"], "27": ["初九：舍尔灵龟，观我朵颐，凶。", "六二：颠颐，拂经于丘颐，征凶。", "六三：拂颐，贞凶。十年勿用，无攸利。", "六四：颠颐，吉。虎视眈眈，其欲逐逐，无咎。", "六五：拂经，居贞吉，不可涉大川。", "上九：由颐，厉吉，利涉大川。"], "28": ["初六：藉用白茅，无咎。", "九二：枯杨生稊，老夫得其女妻，无不利。", "九三：栋桡，凶。", "九四：栋隆，吉。有它，吝。", "九五：枯杨生华，老妇得其士夫，无咎无誉。", "上六：过涉灭顶，凶，无咎。"], "29": ["初六：习坎，入于坎窞，凶。", "九二：坎有险，求小得。", "六三：来之坎坎，险且枕，入于坎窞，勿用。", "六四：樽酒簋贰，用缶，纳约自牖，终无咎。", "九五：坎不盈，祗既平，无咎。", "上六：系用徽纆，置于丛棘，三岁不得，凶。"], "30": ["初九：履错然，敬之无咎。", "六二：黄离，元吉。", "九三：日昃之离，不鼓缶而歌，则大耋之嗟，凶。", "九四：突如其来如，焚如，死如，弃如。", "六五：出涕沱若，戚嗟若，吉。", "上九：王用出征，有嘉折首，获匪其丑，无咎。"], "31": ["初六：咸其拇。", "六二：咸其腓，凶，居吉。", "九三：咸其股，执其随，往吝。", "九四：贞吉，悔亡。憧憧往来，朋从尔思。", "九五：咸其脢，无悔。", "上六：咸其辅颊舌。"], "32": ["初六：浚恒，贞凶，无攸利。", "九二：悔亡。", "九三：不恒其德，或承之羞，贞吝。", "九四：田无禽。", "六五：恒其德，贞。妇人吉，夫子凶。", "上六：振恒，凶。"], "33": ["初六：遁尾，厉，勿用有攸往。", "六二：执之用黄牛之革，莫之胜说。", "九三：系遁，有疾厉，畜臣妾吉。", "九四：好遁，君子吉，小人否。", "九五：嘉遁，贞吉。", "上九：肥遁，无不利。"], "34": ["初九：壮于趾，征凶，有孚。", "九二：贞吉。", "九三：小人用壮，君子用罔，贞厉。羝羊触藩，羸其角。", "九四：贞吉，悔亡。藩决不羸，壮于大舆之輹。", "六五：丧羊于易，无悔。", "上六：羝羊触藩，不能退，不能遂，无攸利，艰则吉。"], "35": ["初六：晋如摧如，贞吉。罔孚，裕无咎。", "六二：晋如愁如，贞吉。受兹介福，于其王母。", "六三：众允，悔亡。", "九四：晋如鼫鼠，贞厉。", "六五：悔亡，失得勿恤，往吉，无不利。", "上九：晋其角，维用伐邑，厉吉无咎，贞吝。"], "36": ["初九：明夷于飞，垂其翼。君子于行，三日不食，有攸往，主人有言。", "六二：明夷，夷于左股，用拯马壮，吉。", "九三：明夷于南狩，得其大首，不可疾贞。", "六四：入于左腹，获明夷之心，于出门庭。", "六五：箕子之明夷，利贞。", "上六：不明晦，初登于天，后入于地。"], "37": ["初九：闲有家，悔亡。", "六二：无攸遂，在中馈，贞吉。", "九三：家人嗃嗃，悔厉吉。妇子嘻嘻，终吝。", "六四：富家，大吉。", "九五：王假有家，勿恤，吉。", "上九：有孚威如，终吉。"], "38": ["初九：悔亡，丧马勿逐，自复。见恶人，无咎。", "九二：遇主于巷，无咎。", "六三：见舆曳，其牛掣，其人天且劓，无初有终。", "九四：睽孤，遇元夫，交孚，厉无咎。", "六五：悔亡，厥宗噬肤，往何咎？", "上九：睽孤，见豕负涂，载鬼一车，先张之弧，后说之弧，匪寇婚媾，往遇雨则吉。"], "39": ["初六：往蹇，来誉。", "六二：王臣蹇蹇，匪躬之故。", "九三：往蹇，来反。", "六四：往蹇，来连。", "九五：大蹇，朋来。", "上六：往蹇，来硕，吉。利见大人。"], "40": ["初六：无咎。", "九二：田获三狐，得黄矢，贞吉。", "六三：负且乘，致寇至，贞吝。", "九四：解而拇，朋至斯孚。", "六五：君子维有解，吉。有孚于小人。", "上六：公用射隼于高墉之上，获之，无不利。"], "41": ["初九：已事遄往，无咎，酌损之。", "九二：利贞，征凶，弗损益之。", "六三：三人行，则损一人；一人行，则得其友。", "六四：损其疾，使遄有喜，无咎。", "六五：或益之十朋之龟，弗克违，元吉。", "上九：弗损益之，无咎，贞吉，利有攸往，得臣无家。"], "42": ["初九：利用为大作，元吉，无咎。", "六二：或益之十朋之龟，弗克违，永贞吉。王用享于帝，吉。", "六三：益之用凶事，无咎。有孚中行，告公用圭。", "六四：中行，告公从。利用为依迁国。", "九五：有孚惠心，勿问元吉。有孚惠我德。", "上九：莫益之，或击之，立心勿恒，凶。"], "43": ["初九：壮于前趾，往不胜为咎。", "九二：惕号，莫夜有戎，勿恤。", "九三：壮于頄，有凶。君子夬夬，独行遇雨，若濡有愠，无咎。", "九四：臀无肤，其行次且。牵羊悔亡，闻言不信。", "九五：苋陆夬夬，中行无咎。", "上六：无号，终有凶。"], "44": ["初六：系于金柅，贞吉。有攸往，见凶。羸豕孚蹢躅。", "九二：包有鱼，无咎，不利宾。", "九三：臀无肤，其行次且，厉，无大咎。", "九四：包无鱼，起凶。", "九五：以杞包瓜，含章，有陨自天。", "上九：姤其角，吝，无咎。"], "45": ["初六：有孚不终，乃乱乃萃，若号一握为笑，勿恤，往无咎。", "六二：引吉，无咎，孚乃利用禴。", "六三：萃如嗟如，无攸利，往无咎，小吝。", "九四：大吉，无咎。", "九五：萃有位，无咎。匪孚，元永贞，悔亡。", "上六：赍咨涕洟，无咎。"], "46": ["初六：允升，大吉。", "九二：孚乃利用禴，无咎。", "九三：升虚邑。", "六四：王用亨于岐山，吉，无咎。", "六五：贞吉，升阶。", "上六：冥升，利于不息之贞。"], "47": ["初六：臀困于株木，入于幽谷，三岁不觌。", "九二：困于酒食，朱绂方来，利用享祀，征凶，无咎。", "六三：困于石，据于蒺藜，入于其宫，不见其妻，凶。", "九四：来徐徐，困于金车，吝，有终。", "九五：劓刖，困于赤绂，乃徐有说，利用祭祀。", "上六：困于葛藟，于臲靰，曰动悔。有悔，征吉。"], "48": ["初六：井泥不食，旧井无禽。", "九二：井谷射鲋，瓮敝漏。", "九三：井渫不食，为我心恻，可用汲，王明，并受其福。", "六四：井甃，无咎。", "九五：井冽，寒泉食。", "上六：井收勿幕，有孚元吉。"], "49": ["初九：巩用黄牛之革。", "六二：巳日乃革之，征吉，无咎。", "九三：征凶，贞厉。革言三就，有孚。", "九四：悔亡，有孚改命，吉。", "九五：大人虎变，未占有孚。", "上六：君子豹变，小人革面，征凶，居贞吉。"], "50": ["初六：鼎颠趾，利出否，得妾以其子，无咎。", "九二：鼎有实，我仇有疾，不我能即，吉。", "九三：鼎耳革，其行塞，雉膏不食，方雨亏悔，终吉。", "九四：鼎折足，覆公餗，其形渥，凶。", "六五：鼎黄耳金铉，利贞。", "上九：鼎玉铉，大吉，无不利。"], "51": ["初九：震来虩虩，后笑言哑哑，吉。", "六二：震来厉，亿丧贝，跻于九陵，勿逐，七日得。", "六三：震苏苏，震行无眚。", "九四：震遂泥。", "六五：震往来厉，亿无丧，有事。", "上六：震索索，视矍矍，征凶。震不于其躬，于其邻，无咎。婚媾有言。"], "52": ["初六：艮其趾，无咎，利永贞。", "六二：艮其腓，不拯其随，其心不快。", "九三：艮其限，列其夤，厉薰心。", "六四：艮其身，无咎。", "六五：艮其辅，言有序，悔亡。", "上九：敦艮，吉。"], "53": ["初六：鸿渐于干，小子厉，有言，无咎。", "六二：鸿渐于磐，饮食衎衎，吉。", "九三：鸿渐于陆，夫征不复，妇孕不育，凶。利御寇。", "六四：鸿渐于木，或得其桷，无咎。", "九五：鸿渐于陵，妇三岁不孕，终莫之胜，吉。", "上九：鸿渐于陆，其羽可用为仪，吉。"], "54": ["初九：归妹以娣，跛能履，征吉。", "九二：眇能视，利幽人之贞。", "六三：归妹以须，反归以娣。", "九四：归妹愆期，迟归有时。", "六五：帝乙归妹，其君之袂，不如其娣之袂良，月几望，吉。", "上六：女承筐无实，士刲羊无血，无攸利。"], "55": ["初九：遇其配主，虽旬无咎，往有尚。", "六二：丰其蔀，日中见斗，往得疑疾，有孚发若，吉。", "九三：丰其沛，日中见沫，折其右肱，无咎。", "九四：丰其蔀，日中见斗，遇其夷主，吉。", "六五：来章，有庆誉，吉。", "上六：丰其屋，蔀其家，窥其户，阒其无人，三岁不觌，凶。"], "56": ["初六：旅琐琐，斯其所取灾。", "六二：旅即次，怀其资，得童仆贞。", "九三：旅焚其次，丧其童仆，贞厉。", "九四：旅于处，得其资斧，我心不快。", "六五：射雉一矢亡，终以誉命。", "上九：鸟焚其巢，旅人先笑后号咷。丧牛于易，凶。"], "57": ["初六：进退，利武人之贞。", "九二：巽在床下，用史巫纷若，吉，无咎。", "九三：频巽，吝。", "六四：悔亡，田获三品。", "九五：贞吉，悔亡，无不利。无初有终，先庚三日，后庚三日，吉。", "上九：巽在床下，丧其资斧，贞凶。"], "58": ["初九：和兑，吉。", "九二：孚兑，吉，悔亡。", "六三：来兑，凶。", "九四：商兑，未宁，介疾有喜。", "九五：孚于剥，有厉。", "上六：引兑。"], "59": ["初六：用拯马壮，吉。", "九二：涣奔其机，悔亡。", "六三：涣其躬，无悔。", "六四：涣其群，元吉。涣有丘，匪夷所思。", "九五：涣汗其大号，涣王居，无咎。", "上九：涣其血去逖出，无咎。"], "60": ["初九：不出户庭，无咎。", "九二：不出门庭，凶。", "六三：不节若，则嗟若，无咎。", "六四：安节，亨。", "九五：甘节，吉。往有尚。", "上六：苦节，贞凶，悔亡。"], "61": ["初九：虞吉，有它不燕。", "九二：鸣鹤在阴，其子和之。我有好爵，吾与尔靡之。", "六三：得敌，或鼓或罢，或泣或歌。", "六四：月几望，马匹亡，无咎。", "九五：有孚挛如，无咎。", "上九：翰音登于天，贞凶。"], "62": ["初六：飞鸟以凶。", "六二：过其祖，遇其妣。不及其君，遇其臣，无咎。", "九三：弗过防之，从或戕之，凶。", "九四：无咎，弗过遇之。往厉必戒，勿用永贞。", "六五：密云不雨，自我西郊，公弋取彼在穴。", "上六：弗遇过之，飞鸟离之，凶。是谓灾眚。"], "63": ["初九：曳其轮，濡其尾，无咎。", "六二：妇丧其茀，勿逐，七日得。", "九三：高宗伐鬼方，三年克之，小人勿用。", "六四：繻有衣袽，终日戒。", "九五：东邻杀牛，不如西邻之禴祭，实受其福。", "上六：濡其首，厉。"], "64": ["初六：濡其尾，吝。", "九二：曳其轮，贞吉。", "六三：未济，征凶，利涉大川。", "九四：贞吉，悔亡，震用伐鬼方，三年有赏于大国。", "六五：贞吉，无悔，君子之光，有孚，吉。", "上六：有孚于饮酒，无咎。濡其首，有孚失是。"]};
+const najiaData = {"1": {"p": "乾", "e": "金", "s": 6, "y": 3, "b": ["子", "寅", "辰", "午", "申", "戌"], "r": ["子孙", "妻财", "父母", "官鬼", "兄弟", "父母"]}, "44": {"p": "乾", "e": "金", "s": 1, "y": 4, "b": ["子", "寅", "辰", "午", "申", "戌"], "r": ["子孙", "妻财", "父母", "官鬼", "兄弟", "父母"]}, "33": {"p": "乾", "e": "金", "s": 2, "y": 5, "b": ["戌", "子", "寅", "辰", "午", "申"], "r": ["父母", "子孙", "妻财", "父母", "官鬼", "兄弟"]}, "12": {"p": "乾", "e": "金", "s": 3, "y": 6, "b": ["申", "戌", "子", "寅", "辰", "午"], "r": ["兄弟", "父母", "子孙", "妻财", "父母", "官鬼"]}, "20": {"p": "乾", "e": "金", "s": 4, "y": 1, "b": ["午", "申", "戌", "子", "寅", "辰"], "r": ["官鬼", "兄弟", "父母", "子孙", "妻财", "父母"]}, "23": {"p": "乾", "e": "金", "s": 5, "y": 2, "b": ["辰", "午", "申", "戌", "子", "寅"], "r": ["父母", "官鬼", "兄弟", "父母", "子孙", "妻财"]}, "35": {"p": "乾", "e": "金", "s": 4, "y": 1, "b": ["午", "申", "戌", "子", "寅", "辰"], "r": ["官鬼", "兄弟", "父母", "子孙", "妻财", "父母"]}, "14": {"p": "乾", "e": "金", "s": 3, "y": 6, "b": ["申", "戌", "子", "寅", "辰", "午"], "r": ["兄弟", "父母", "子孙", "妻财", "父母", "官鬼"]}, "58": {"p": "兑", "e": "金", "s": 6, "y": 3, "b": ["巳", "卯", "丑", "亥", "酉", "未"], "r": ["官鬼", "妻财", "父母", "子孙", "兄弟", "父母"]}, "47": {"p": "兑", "e": "金", "s": 1, "y": 4, "b": ["巳", "卯", "丑", "亥", "酉", "未"], "r": ["官鬼", "妻财", "父母", "子孙", "兄弟", "父母"]}, "45": {"p": "兑", "e": "金", "s": 2, "y": 5, "b": ["未", "巳", "卯", "丑", "亥", "酉"], "r": ["父母", "官鬼", "妻财", "父母", "子孙", "兄弟"]}, "31": {"p": "兑", "e": "金", "s": 3, "y": 6, "b": ["酉", "未", "巳", "卯", "丑", "亥"], "r": ["兄弟", "父母", "官鬼", "妻财", "父母", "子孙"]}, "39": {"p": "兑", "e": "金", "s": 4, "y": 1, "b": ["亥", "酉", "未", "巳", "卯", "丑"], "r": ["子孙", "兄弟", "父母", "官鬼", "妻财", "父母"]}, "15": {"p": "兑", "e": "金", "s": 5, "y": 2, "b": ["丑", "亥", "酉", "未", "巳", "卯"], "r": ["父母", "子孙", "兄弟", "父母", "官鬼", "妻财"]}, "62": {"p": "兑", "e": "金", "s": 4, "y": 1, "b": ["亥", "酉", "未", "巳", "卯", "丑"], "r": ["子孙", "兄弟", "父母", "官鬼", "妻财", "父母"]}, "54": {"p": "兑", "e": "金", "s": 3, "y": 6, "b": ["酉", "未", "巳", "卯", "丑", "亥"], "r": ["兄弟", "父母", "官鬼", "妻财", "父母", "子孙"]}, "30": {"p": "离", "e": "火", "s": 6, "y": 3, "b": ["卯", "丑", "亥", "酉", "未", "巳"], "r": ["父母", "子孙", "官鬼", "妻财", "子孙", "兄弟"]}, "56": {"p": "离", "e": "火", "s": 1, "y": 4, "b": ["卯", "丑", "亥", "酉", "未", "巳"], "r": ["父母", "子孙", "官鬼", "妻财", "子孙", "兄弟"]}, "50": {"p": "离", "e": "火", "s": 2, "y": 5, "b": ["巳", "卯", "丑", "亥", "酉", "未"], "r": ["兄弟", "父母", "子孙", "官鬼", "妻财", "子孙"]}, "64": {"p": "离", "e": "火", "s": 3, "y": 6, "b": ["未", "巳", "卯", "丑", "亥", "酉"], "r": ["子孙", "兄弟", "父母", "子孙", "官鬼", "妻财"]}, "4": {"p": "离", "e": "火", "s": 4, "y": 1, "b": ["酉", "未", "巳", "卯", "丑", "亥"], "r": ["妻财", "子孙", "兄弟", "父母", "子孙", "官鬼"]}, "59": {"p": "离", "e": "火", "s": 5, "y": 2, "b": ["亥", "酉", "未", "巳", "卯", "丑"], "r": ["官鬼", "妻财", "子孙", "兄弟", "父母", "子孙"]}, "6": {"p": "离", "e": "火", "s": 4, "y": 1, "b": ["酉", "未", "巳", "卯", "丑", "亥"], "r": ["妻财", "子孙", "兄弟", "父母", "子孙", "官鬼"]}, "13": {"p": "离", "e": "火", "s": 3, "y": 6, "b": ["未", "巳", "卯", "丑", "亥", "酉"], "r": ["子孙", "兄弟", "父母", "子孙", "官鬼", "妻财"]}, "51": {"p": "震", "e": "木", "s": 6, "y": 3, "b": ["子", "寅", "辰", "午", "申", "戌"], "r": ["父母", "兄弟", "妻财", "子孙", "官鬼", "妻财"]}, "16": {"p": "震", "e": "木", "s": 1, "y": 4, "b": ["子", "寅", "辰", "午", "申", "戌"], "r": ["父母", "兄弟", "妻财", "子孙", "官鬼", "妻财"]}, "40": {"p": "震", "e": "木", "s": 2, "y": 5, "b": ["戌", "子", "寅", "辰", "午", "申"], "r": ["妻财", "父母", "兄弟", "妻财", "子孙", "官鬼"]}, "32": {"p": "震", "e": "木", "s": 3, "y": 6, "b": ["申", "戌", "子", "寅", "辰", "午"], "r": ["官鬼", "妻财", "父母", "兄弟", "妻财", "子孙"]}, "46": {"p": "震", "e": "木", "s": 4, "y": 1, "b": ["午", "申", "戌", "子", "寅", "辰"], "r": ["子孙", "官鬼", "妻财", "父母", "兄弟", "妻财"]}, "48": {"p": "震", "e": "木", "s": 5, "y": 2, "b": ["辰", "午", "申", "戌", "子", "寅"], "r": ["妻财", "子孙", "官鬼", "妻财", "父母", "兄弟"]}, "28": {"p": "震", "e": "木", "s": 4, "y": 1, "b": ["午", "申", "戌", "子", "寅", "辰"], "r": ["子孙", "官鬼", "妻财", "父母", "兄弟", "妻财"]}, "17": {"p": "震", "e": "木", "s": 3, "y": 6, "b": ["申", "戌", "子", "寅", "辰", "午"], "r": ["官鬼", "妻财", "父母", "兄弟", "妻财", "子孙"]}, "57": {"p": "巽", "e": "木", "s": 6, "y": 3, "b": ["丑", "亥", "酉", "未", "巳", "卯"], "r": ["妻财", "父母", "官鬼", "妻财", "子孙", "兄弟"]}, "9": {"p": "巽", "e": "木", "s": 1, "y": 4, "b": ["丑", "亥", "酉", "未", "巳", "卯"], "r": ["妻财", "父母", "官鬼", "妻财", "子孙", "兄弟"]}, "37": {"p": "巽", "e": "木", "s": 2, "y": 5, "b": ["卯", "丑", "亥", "酉", "未", "巳"], "r": ["兄弟", "妻财", "父母", "官鬼", "妻财", "子孙"]}, "42": {"p": "巽", "e": "木", "s": 3, "y": 6, "b": ["巳", "卯", "丑", "亥", "酉", "未"], "r": ["子孙", "兄弟", "妻财", "父母", "官鬼", "妻财"]}, "25": {"p": "巽", "e": "木", "s": 4, "y": 1, "b": ["未", "巳", "卯", "丑", "亥", "酉"], "r": ["妻财", "子孙", "兄弟", "妻财", "父母", "官鬼"]}, "21": {"p": "巽", "e": "木", "s": 5, "y": 2, "b": ["酉", "未", "巳", "卯", "丑", "亥"], "r": ["官鬼", "妻财", "子孙", "兄弟", "妻财", "父母"]}, "27": {"p": "巽", "e": "木", "s": 4, "y": 1, "b": ["未", "巳", "卯", "丑", "亥", "酉"], "r": ["妻财", "子孙", "兄弟", "妻财", "父母", "官鬼"]}, "18": {"p": "巽", "e": "木", "s": 3, "y": 6, "b": ["巳", "卯", "丑", "亥", "酉", "未"], "r": ["子孙", "兄弟", "妻财", "父母", "官鬼", "妻财"]}, "29": {"p": "坎", "e": "水", "s": 6, "y": 3, "b": ["寅", "辰", "午", "申", "戌", "子"], "r": ["子孙", "官鬼", "妻财", "父母", "官鬼", "兄弟"]}, "60": {"p": "坎", "e": "水", "s": 1, "y": 4, "b": ["寅", "辰", "午", "申", "戌", "子"], "r": ["子孙", "官鬼", "妻财", "父母", "官鬼", "兄弟"]}, "3": {"p": "坎", "e": "水", "s": 2, "y": 5, "b": ["子", "寅", "辰", "午", "申", "戌"], "r": ["兄弟", "子孙", "官鬼", "妻财", "父母", "官鬼"]}, "63": {"p": "坎", "e": "水", "s": 3, "y": 6, "b": ["戌", "子", "寅", "辰", "午", "申"], "r": ["官鬼", "兄弟", "子孙", "官鬼", "妻财", "父母"]}, "49": {"p": "坎", "e": "水", "s": 4, "y": 1, "b": ["申", "戌", "子", "寅", "辰", "午"], "r": ["父母", "官鬼", "兄弟", "子孙", "官鬼", "妻财"]}, "55": {"p": "坎", "e": "水", "s": 5, "y": 2, "b": ["午", "申", "戌", "子", "寅", "辰"], "r": ["妻财", "父母", "官鬼", "兄弟", "子孙", "官鬼"]}, "36": {"p": "坎", "e": "水", "s": 4, "y": 1, "b": ["申", "戌", "子", "寅", "辰", "午"], "r": ["父母", "官鬼", "兄弟", "子孙", "官鬼", "妻财"]}, "7": {"p": "坎", "e": "水", "s": 3, "y": 6, "b": ["戌", "子", "寅", "辰", "午", "申"], "r": ["官鬼", "兄弟", "子孙", "官鬼", "妻财", "父母"]}, "52": {"p": "艮", "e": "土", "s": 6, "y": 3, "b": ["辰", "午", "申", "戌", "子", "寅"], "r": ["兄弟", "父母", "子孙", "兄弟", "妻财", "官鬼"]}, "22": {"p": "艮", "e": "土", "s": 1, "y": 4, "b": ["辰", "午", "申", "戌", "子", "寅"], "r": ["兄弟", "父母", "子孙", "兄弟", "妻财", "官鬼"]}, "26": {"p": "艮", "e": "土", "s": 2, "y": 5, "b": ["寅", "辰", "午", "申", "戌", "子"], "r": ["官鬼", "兄弟", "父母", "子孙", "兄弟", "妻财"]}, "41": {"p": "艮", "e": "土", "s": 3, "y": 6, "b": ["子", "寅", "辰", "午", "申", "戌"], "r": ["妻财", "官鬼", "兄弟", "父母", "子孙", "兄弟"]}, "38": {"p": "艮", "e": "土", "s": 4, "y": 1, "b": ["戌", "子", "寅", "辰", "午", "申"], "r": ["兄弟", "妻财", "官鬼", "兄弟", "父母", "子孙"]}, "10": {"p": "艮", "e": "土", "s": 5, "y": 2, "b": ["申", "戌", "子", "寅", "辰", "午"], "r": ["子孙", "兄弟", "妻财", "官鬼", "兄弟", "父母"]}, "61": {"p": "艮", "e": "土", "s": 4, "y": 1, "b": ["戌", "子", "寅", "辰", "午", "申"], "r": ["兄弟", "妻财", "官鬼", "兄弟", "父母", "子孙"]}, "53": {"p": "艮", "e": "土", "s": 3, "y": 6, "b": ["子", "寅", "辰", "午", "申", "戌"], "r": ["妻财", "官鬼", "兄弟", "父母", "子孙", "兄弟"]}, "2": {"p": "坤", "e": "土", "s": 6, "y": 3, "b": ["未", "巳", "卯", "丑", "亥", "酉"], "r": ["兄弟", "父母", "官鬼", "兄弟", "妻财", "子孙"]}, "24": {"p": "坤", "e": "土", "s": 1, "y": 4, "b": ["未", "巳", "卯", "丑", "亥", "酉"], "r": ["兄弟", "父母", "官鬼", "兄弟", "妻财", "子孙"]}, "19": {"p": "坤", "e": "土", "s": 2, "y": 5, "b": ["酉", "未", "巳", "卯", "丑", "亥"], "r": ["子孙", "兄弟", "父母", "官鬼", "兄弟", "妻财"]}, "11": {"p": "坤", "e": "土", "s": 3, "y": 6, "b": ["亥", "酉", "未", "巳", "卯", "丑"], "r": ["妻财", "子孙", "兄弟", "父母", "官鬼", "兄弟"]}, "34": {"p": "坤", "e": "土", "s": 4, "y": 1, "b": ["丑", "亥", "酉", "未", "巳", "卯"], "r": ["兄弟", "妻财", "子孙", "兄弟", "父母", "官鬼"]}, "43": {"p": "坤", "e": "土", "s": 5, "y": 2, "b": ["卯", "丑", "亥", "酉", "未", "巳"], "r": ["官鬼", "兄弟", "妻财", "子孙", "兄弟", "父母"]}, "5": {"p": "坤", "e": "土", "s": 4, "y": 1, "b": ["丑", "亥", "酉", "未", "巳", "卯"], "r": ["兄弟", "妻财", "子孙", "兄弟", "父母", "官鬼"]}, "8": {"p": "坤", "e": "土", "s": 3, "y": 6, "b": ["亥", "酉", "未", "巳", "卯", "丑"], "r": ["妻财", "子孙", "兄弟", "父母", "官鬼", "兄弟"]}};
+
         // 生成随机卦象
         function generateHexagram() {
             const lines = [];
@@ -2340,7 +2885,531 @@
 
         // 页面加载时初始化
         window.addEventListener('DOMContentLoaded', function() {
+        if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js"); }
+
         });
+    
+        // ============================================================
+        // MODE TOGGLE
+        // ============================================================
+        let tossMode = 'auto';
+        let manualLines = [];
+        let manualTossCount = 0;
+
+        document.getElementById('mode-toggle').addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON') {
+                tossMode = e.target.dataset.mode;
+                this.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                const manualArea = document.getElementById('manual-toss-area');
+                const tossBtn = document.getElementById('toss-btn');
+                if (tossMode === 'manual') {
+                    manualArea.classList.remove('hidden');
+                    tossBtn.classList.add('hidden');
+                    resetManualToss();
+                } else {
+                    manualArea.classList.add('hidden');
+                    tossBtn.classList.remove('hidden');
+                }
+            }
+        });
+
+        function resetManualToss() {
+            manualLines = [];
+            manualTossCount = 0;
+            document.querySelectorAll('#toss-progress .toss-dot').forEach(d => {
+                d.classList.remove('done', 'moving');
+            });
+            document.getElementById('coin-btn').disabled = false;
+            document.getElementById('coin-btn').innerHTML = '&#9783;';
+        }
+
+        document.getElementById('coin-btn').addEventListener('click', function() {
+            if (manualTossCount >= 6) return;
+            const btn = this;
+            btn.classList.add('tossing');
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.classList.remove('tossing');
+                // Generate one line
+                const toss = Math.floor(Math.random() * 4);
+                let lineType, isMoving = false;
+                switch(toss) {
+                    case 0: lineType = 'yang'; isMoving = true; break;
+                    case 1: lineType = 'yin'; break;
+                    case 2: lineType = 'yang'; break;
+                    case 3: lineType = 'yin'; isMoving = true; break;
+                }
+                manualLines.push({ lineType, isMoving });
+                // Update progress dot
+                const dots = document.querySelectorAll('#toss-progress .toss-dot');
+                if (dots[manualTossCount]) {
+                    dots[manualTossCount].classList.add(isMoving ? 'moving' : 'done');
+                }
+                manualTossCount++;
+                if (manualTossCount >= 6) {
+                    btn.disabled = true;
+                    // Show results
+                    setTimeout(() => {
+                        const number = calculateHexagramNumber(manualLines);
+                        const hexagramInfo = hexagrams[number - 1];
+                        displayHexagram(manualLines, hexagramInfo);
+                        resetManualToss();
+                    }, 400);
+                } else {
+                    btn.disabled = false;
+                }
+            }, 500);
+        });
+
+        // ============================================================
+        // CHANGED HEXAGRAM (之卦)
+        // ============================================================
+        function calculateChangedHexagram(lines) {
+            const hasMoving = lines.some(l => l.isMoving);
+            if (!hasMoving) return null;
+            const changedLines = lines.map(l => ({
+                lineType: l.isMoving ? (l.lineType === 'yang' ? 'yin' : 'yang') : l.lineType,
+                isMoving: false
+            }));
+            const number = calculateHexagramNumber(changedLines);
+            return { lines: changedLines, info: hexagrams[number - 1] };
+        }
+
+        function displayZhiHexagram(zhi) {
+            const section = document.getElementById('zhi-hexagram-section');
+            if (!zhi) {
+                section.classList.add('hidden');
+                return;
+            }
+            section.classList.remove('hidden');
+            const linesDiv = document.getElementById('zhi-hexagram-lines');
+            linesDiv.innerHTML = '';
+            zhi.lines.forEach((line, index) => {
+                const el = document.createElement('div');
+                el.className = 'hexagram-line ' + line.lineType;
+                el.style.animationDelay = (index * 0.1) + 's';
+                if (line.lineType === 'yin') {
+                    const s1 = document.createElement('div'); s1.className = 'yin-segment';
+                    const s2 = document.createElement('div'); s2.className = 'yin-segment';
+                    el.appendChild(s1); el.appendChild(s2);
+                }
+                linesDiv.appendChild(el);
+            });
+            document.getElementById('zhi-hexagram-name').textContent = zhi.info.name;
+            document.getElementById('zhi-hexagram-number').textContent = '卦序 · ' + zhi.info.number;
+            // Display zhi interpretation
+            document.getElementById('zhi-hexagram-text').textContent = zhi.info.text;
+            document.getElementById('zhi-fortune').textContent = zhi.info.fortune;
+            document.getElementById('zhi-interpretation-content').classList.remove('hidden');
+        }
+
+        // ============================================================
+        // YAO TEXTS
+        // ============================================================
+        function displayYaoTexts(lines, hexNum) {
+            const content = document.getElementById('yao-list-content');
+            const texts = yaoTexts[hexNum] || [];
+            if (!texts.length) { content.innerHTML = '<p style="color:var(--text-muted);text-align:center;">暂无爻辞数据</p>'; return; }
+            content.innerHTML = texts.map((t, i) => {
+                const isMoving = lines && lines[i] && lines[i].isMoving;
+                const posNames = ['初', '二', '三', '四', '五', '上'];
+                const cls = isMoving ? 'yao-item moving-line' : 'yao-item';
+                return `<div class="${cls}"><span class="yao-pos">${posNames[i]}爻</span><span class="yao-text">${t}</span></div>`;
+            }).join('');
+        }
+
+        // Toggle yao list
+        document.getElementById('yao-list-toggle').addEventListener('click', function() {
+            const content = document.getElementById('yao-list-content');
+            const hidden = content.style.display === 'none';
+            content.style.display = hidden ? 'block' : 'none';
+            this.textContent = hidden ? '爻辞解读 ▲' : '爻辞解读 ▼';
+        });
+
+        // ============================================================
+        // NAJIA
+        // ============================================================
+        function displayNajia(hexNum) {
+            const data = najiaData[hexNum];
+            if (!data) return;
+            document.getElementById('najia-info').innerHTML =
+                '卦宫：<span>' + data.p + '宫</span> · 五行：<span>' + data.e + '</span> · 世爻：<span>' + data.s + '</span> · 应爻：<span>' + data.y + '</span>';
+            const posNames = ['初', '二', '三', '四', '五', '上'];
+            let html = '<tr><th>爻位</th><th>地支</th><th>五行</th><th>六亲</th><th>世应</th></tr>';
+            for (let i = 0; i < 6; i++) {
+                const isShi = data.s === (i + 1);
+                const isYing = data.y === (i + 1);
+                const rowClass = isShi ? 'shi-row' : (isYing ? 'ying-row' : '');
+                const shiYing = isShi ? '<span class="shi-mark">世</span>' : (isYing ? '应' : '');
+                html += '<tr class="' + rowClass + '"><td>' + posNames[i] + '</td><td>' + data.b[i] + '</td><td>' + zhi_wuxing[data.b[i]] + '</td><td>' + data.r[i] + '</td><td>' + shiYing + '</td></tr>';
+            }
+            document.getElementById('najia-table').innerHTML = html;
+        }
+
+        // Toggle najia
+        document.getElementById('najia-toggle').addEventListener('click', function() {
+            const table = document.getElementById('najia-table');
+            const info = document.getElementById('najia-info');
+            const hidden = table.style.display === 'none';
+            table.style.display = hidden ? '' : 'none';
+            info.style.display = hidden ? '' : 'none';
+            this.textContent = hidden ? '纳甲装卦 ▲' : '纳甲装卦 ▼';
+        });
+
+        // ============================================================
+        // UPDATED DISPLAY HEXAGRAM
+        // ============================================================
+        const origDisplayHexagram = displayHexagram;
+        displayHexagram = function(lines, hexagramInfo) {
+            origDisplayHexagram(lines, hexagramInfo);
+            // Show zhi hexagram
+            const zhi = calculateChangedHexagram(lines);
+            displayZhiHexagram(zhi);
+            // Show yao texts
+            const yaoList = document.getElementById('yao-list');
+            yaoList.classList.remove('hidden');
+            document.getElementById('yao-list-content').style.display = 'none';
+            document.getElementById('yao-list-toggle').textContent = '爻辞解读 ▼';
+            displayYaoTexts(lines, hexagramInfo.number);
+            // Show najia
+            const najiaSection = document.getElementById('najia-section');
+            najiaSection.classList.remove('hidden');
+            document.getElementById('najia-table').style.display = 'none';
+            document.getElementById('najia-info').style.display = 'none';
+            document.getElementById('najia-toggle').textContent = '纳甲装卦 ▼';
+            displayNajia(hexagramInfo.number);
+            // Update save button
+            updateSaveButton();
+            // Show collection section
+            document.getElementById('collection-section').classList.remove('hidden');
+        };
+
+        // ============================================================
+        // SHARE CARD
+        // ============================================================
+        function generateShareImage() {
+            const canvas = document.getElementById('share-canvas');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+            // Background
+            ctx.fillStyle = '#1a1410';
+            ctx.fillRect(0, 0, w, h);
+            // Decorative border
+            ctx.strokeStyle = 'rgba(196, 155, 63, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(20, 20, w - 40, h - 40);
+            ctx.strokeStyle = 'rgba(196, 155, 63, 0.12)';
+            ctx.strokeRect(30, 30, w - 60, h - 60);
+            // Title
+            ctx.fillStyle = '#c49b3f';
+            ctx.font = 'bold 36px "Noto Serif SC", serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('周易六爻', w / 2, 100);
+            // Hexagram name
+            if (currentHexagramInfo) {
+                ctx.fillStyle = '#d4b760';
+                ctx.font = 'bold 52px "Noto Serif SC", serif';
+                ctx.fillText(currentHexagramInfo.name, w / 2, 190);
+                // Number
+                ctx.fillStyle = 'rgba(196, 155, 63, 0.5)';
+                ctx.font = '20px "Noto Sans SC", sans-serif';
+                ctx.fillText('卦序 · ' + currentHexagramInfo.number, w / 2, 230);
+                // Draw hexagram lines
+                const yStart = 280;
+                const lineW = 160, lineH = 14, gap = 18;
+                if (currentLines) {
+                    currentLines.forEach((line, i) => {
+                        const y = yStart + i * (lineH + gap);
+                        const x = w / 2 - lineW / 2;
+                        if (line.lineType === 'yang') {
+                            ctx.fillStyle = 'rgba(196, 155, 63, 0.5)';
+                            ctx.fillRect(x, y, lineW, lineH);
+                        } else {
+                            ctx.fillStyle = 'rgba(196, 155, 63, 0.5)';
+                            const segW = (lineW - 20) / 2;
+                            ctx.fillRect(x, y, segW, lineH);
+                            ctx.fillRect(x + segW + 20, y, segW, lineH);
+                        }
+                        if (line.isMoving) {
+                            ctx.fillStyle = '#c2362a';
+                            ctx.font = '14px "Noto Sans SC", sans-serif';
+                            ctx.fillText('◆', x + lineW + 20, y + lineH);
+                        }
+                    });
+                }
+                // Text
+                ctx.fillStyle = '#a89880';
+                ctx.font = '20px "Noto Sans SC", sans-serif';
+                const text = currentHexagramInfo.text;
+                ctx.fillText(text, w / 2, 480);
+                // Fortune
+                ctx.fillStyle = '#e0d5c0';
+                ctx.font = '18px "Noto Sans SC", sans-serif';
+                const fortune = currentHexagramInfo.fortune;
+                ctx.fillText(fortune, w / 2, 530);
+            }
+            // Footer
+            ctx.fillStyle = 'rgba(196, 155, 63, 0.4)';
+            ctx.font = '14px "Noto Sans SC", sans-serif';
+            ctx.fillText('周易六爻运势预测 · 仅供娱乐参考', w / 2, h - 60);
+            const dateStr = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+            ctx.fillText(dateStr, w / 2, h - 35);
+            return canvas.toDataURL('image/png');
+        }
+
+        let currentLines = null;
+
+        // Override displayHexagram to capture lines
+        const origDisplayHexagram2 = displayHexagram;
+        displayHexagram = function(lines, hexagramInfo) {
+            currentLines = lines;
+            origDisplayHexagram2(lines, hexagramInfo);
+        };
+
+        document.getElementById('share-btn').addEventListener('click', function() {
+            if (!currentHexagramInfo) return;
+            const dataUrl = generateShareImage();
+            document.getElementById('share-image').src = dataUrl;
+            document.getElementById('share-modal').classList.add('active');
+        });
+        document.getElementById('share-close').addEventListener('click', function() {
+            document.getElementById('share-modal').classList.remove('active');
+        });
+        document.getElementById('share-download').addEventListener('click', function() {
+            const dataUrl = generateShareImage();
+            const link = document.createElement('a');
+            link.download = '周易六爻_' + (currentHexagramInfo ? currentHexagramInfo.name : '卦象') + '.png';
+            link.href = dataUrl;
+            link.click();
+        });
+        document.getElementById('share-copy').addEventListener('click', async function() {
+            const dataUrl = generateShareImage();
+            try {
+                const res = await fetch(dataUrl);
+                const blob = await res.blob();
+                await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                alert('图片已复制到剪贴板');
+            } catch(e) {
+                alert('复制失败，请尝试下载');
+            }
+        });
+
+        // ============================================================
+        // DAILY HEXAGRAM
+        // ============================================================
+        function getDailyHexagramNumber() {
+            const now = new Date();
+            return ((now.getFullYear() + now.getMonth() + 1 + now.getDate()) % 64) + 1;
+        }
+
+        document.getElementById('daily-btn').addEventListener('click', function() {
+            const num = getDailyHexagramNumber();
+            const info = hexagrams[num - 1];
+            const lines = generateHexagram();
+            // Force hexagram to match daily number
+            const dailyLines = [];
+            for (let i = 0; i < 6; i++) {
+                dailyLines.push({ lineType: ((num - 1) >> i) & 1 ? 'yang' : 'yin', isMoving: false });
+            }
+            displayHexagram(dailyLines, info);
+            document.getElementById('daily-label').textContent = info.name + ' · 今日卦象';
+            document.getElementById('loading-text').textContent = '起卦中...';
+            document.getElementById('loading-overlay').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('loading-overlay').classList.remove('active');
+            }, 800);
+        });
+
+        // ============================================================
+        // COLLECTION
+        // ============================================================
+        function getCollection() {
+            try { return JSON.parse(localStorage.getItem('iching_collection') || '[]'); }
+            catch(e) { return []; }
+        }
+
+        function saveCollection(col) {
+            localStorage.setItem('iching_collection', JSON.stringify(col));
+        }
+
+        function updateSaveButton() {
+            const btn = document.getElementById('save-btn');
+            if (!currentHexagramInfo) return;
+            const col = getCollection();
+            const exists = col.some(c => c.number === currentHexagramInfo.number && c.question === currentQuestion);
+            btn.textContent = exists ? '已收藏' : '收藏';
+            btn.classList.toggle('saved', exists);
+        }
+
+        document.getElementById('save-btn').addEventListener('click', function() {
+            if (!currentHexagramInfo) return;
+            let col = getCollection();
+            const idx = col.findIndex(c => c.number === currentHexagramInfo.number && c.question === currentQuestion);
+            if (idx >= 0) {
+                col.splice(idx, 1);
+                saveCollection(col);
+                updateSaveButton();
+                renderCollection();
+                return;
+            }
+            if (col.length >= 50) col.pop();
+            col.unshift({
+                number: currentHexagramInfo.number,
+                name: currentHexagramInfo.name,
+                text: currentHexagramInfo.text,
+                fortune: currentHexagramInfo.fortune,
+                advice: currentHexagramInfo.advice,
+                question: currentQuestion,
+                date: new Date().toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                lines: currentLines ? currentLines.map(l => ({ lineType: l.lineType, isMoving: l.isMoving })) : null
+            });
+            saveCollection(col);
+            updateSaveButton();
+            renderCollection();
+        });
+
+        function renderCollection() {
+            const list = document.getElementById('collection-list');
+            const col = getCollection();
+            if (!col.length) {
+                list.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px;">暂无收藏</p>';
+                return;
+            }
+            list.innerHTML = col.map((c, i) => `
+                <div class="collection-item">
+                    <div>
+                        <div class="col-name">${c.name}</div>
+                        <div class="col-date">${c.date} · ${c.question === 'fortune' ? '综合' : c.question}</div>
+                    </div>
+                    <div class="col-actions">
+                        <button onclick="loadCollectionItem(${i})">查看</button>
+                        <button class="danger" onclick="removeCollectionItem(${i})">删除</button>
+                    </div>
+                </div>
+            `).join('');
+            // Also update compare selects
+            renderCompareOptions();
+        }
+
+        function loadCollectionItem(idx) {
+            const col = getCollection();
+            const item = col[idx];
+            if (!item) return;
+            const info = hexagrams[item.number - 1];
+            const lines = item.lines || [];
+            if (lines.length === 6) {
+                displayHexagram(lines, info);
+            } else {
+                const autoLines = [];
+                for (let i = 0; i < 6; i++) {
+                    autoLines.push({ lineType: ((item.number - 1) >> i) & 1 ? 'yang' : 'yin', isMoving: false });
+                }
+                displayHexagram(autoLines, info);
+            }
+            currentQuestion = item.question || 'fortune';
+            document.querySelectorAll('.question-tab').forEach(t => t.classList.remove('active'));
+            const matchTab = document.querySelector(`.question-tab[data-question="${currentQuestion}"]`);
+            if (matchTab) matchTab.classList.add('active');
+            displayInterpretation(info, currentQuestion);
+        }
+
+        function removeCollectionItem(idx) {
+            let col = getCollection();
+            col.splice(idx, 1);
+            saveCollection(col);
+            renderCollection();
+            updateSaveButton();
+        }
+
+        // Make functions global for onclick
+        window.loadCollectionItem = loadCollectionItem;
+        window.removeCollectionItem = removeCollectionItem;
+
+        // ============================================================
+        // COMPARE
+        // ============================================================
+        let compareSelection = [null, null];
+
+        function renderCompareOptions() {
+            const col = getCollection();
+            const opts = col.map((c, i) => `<option value="${i}">${c.name} (${c.date})</option>`).join('');
+            const sel1 = document.getElementById('compare-select-1');
+            const sel2 = document.getElementById('compare-select-2');
+            if (sel1) sel1.innerHTML = '<option value="">--选择--</option>' + opts;
+            if (sel2) sel2.innerHTML = '<option value="">--选择--</option>' + opts;
+        }
+
+        document.getElementById('collection-tabs').addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON') {
+                const tab = e.target.dataset.coltab;
+                this.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                const list = document.getElementById('collection-list');
+                const compare = document.getElementById('compare-section');
+                if (tab === 'list') {
+                    list.classList.remove('hidden');
+                    compare.classList.add('hidden');
+                    renderCollection();
+                } else {
+                    list.classList.add('hidden');
+                    compare.classList.remove('hidden');
+                    renderCompareOptions();
+                    updateCompareCards();
+                }
+            }
+        });
+
+        function updateCompareCards() {
+            const col = getCollection();
+            for (let i = 0; i < 2; i++) {
+                const card = document.getElementById('compare-card-' + (i + 1));
+                const idx = compareSelection[i];
+                if (idx !== null && col[idx]) {
+                    const c = col[idx];
+                    card.innerHTML = `
+                        <div class="c-name">${c.name}</div>
+                        <div class="c-text">${c.text}</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">${c.fortune}</div>
+                        <button onclick="selectCompare(${i})" style="margin-top:8px;padding:4px 12px;background:transparent;border:1px solid var(--border);color:var(--text-muted);cursor:pointer;font-size:0.7rem;border-radius:2px;">更换</button>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <p style="color:var(--text-muted);font-size:0.8rem;">选择对比卦象</p>
+                        <select id="compare-select-${i + 1}" onchange="setCompare(${i}, this.value)" style="margin-top:8px;padding:6px;background:var(--ink);color:var(--text);border:1px solid var(--border);font-size:0.8rem;">
+                            <option value="">--选择--</option>
+                            ${col.map((c, j) => `<option value="${j}">${c.name} (${c.date})</option>`).join('')}
+                        </select>
+                    `;
+                }
+            }
+        }
+
+        function setCompare(slot, val) {
+            compareSelection[slot] = val === '' ? null : parseInt(val);
+            updateCompareCards();
+        }
+
+        function selectCompare(slot) {
+            compareSelection[slot] = null;
+            updateCompareCards();
+        }
+
+        window.setCompare = setCompare;
+        window.selectCompare = selectCompare;
+
+        // ============================================================
+        // ZHI WUXING (for najia)
+        // ============================================================
+        const zhi_wuxing = {"子":"水","丑":"土","寅":"木","卯":"木","辰":"土","巳":"火","午":"火","未":"土","申":"金","酉":"金","戌":"土","亥":"水"};
+
+        // ============================================================
+        // INIT: render collection on load
+        // ============================================================
+        window.addEventListener('DOMContentLoaded', function() {
+            renderCollection();
+        });
+
     </script>
 </body>
 </html>
