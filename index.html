@@ -12,27 +12,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --ink: #1a1410;
-            --ink-light: #2a2418;
+            --ink: #101a2e;
+            --ink-light: #1a2740;
             --paper: #f5f0e6;
             --paper-warm: #e8dcc8;
-            --cream: #e0d5c0;
-            --cream-muted: #b8a898;
-            --cinnabar: #c2362a;
-            --cinnabar-dark: #9b1d1a;
-            --gold: #c49b3f;
-            --gold-light: #d4b760;
-            --gold-faded: #8a7040;
-            --text: #e0d5c0;
-            --text-secondary: #a89880;
-            --text-muted: #7a6a58;
-            --border: rgba(196, 155, 63, 0.12);
-            --border-glow: rgba(196, 155, 63, 0.25);
-            --card-bg: rgba(255, 248, 235, 0.04);
-            --card-hover: rgba(255, 248, 235, 0.07);
-            --shadow: 0 1px 0 rgba(196, 155, 63, 0.08);
-            --radius: 2px;
-            --radius-sm: 1px;
+            --cream: #e6e0d4;
+            --cream-muted: #9fb0c4;
+            --cinnabar: #d94a36;
+            --cinnabar-dark: #b53424;
+            --gold: #e3b558;
+            --gold-light: #f0cf7a;
+            --gold-faded: #c9a55c;
+            --text: #e8e4d8;
+            --text-secondary: #b8c0ce;
+            --text-muted: #8a94a8;
+            --border: rgba(227, 181, 88, 0.18);
+            --border-glow: rgba(227, 181, 88, 0.35);
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-hover: rgba(255, 255, 255, 0.09);
+            --shadow: 0 1px 0 rgba(227, 181, 88, 0.12);
+            --radius: 18px;
+            --radius-sm: 12px;
             --font-display: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
             --font-body: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
             --transition: 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -54,9 +54,10 @@
             min-height: 100vh;
             min-height: 100dvh;
             background:
-                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(196, 155, 63, 0.06) 0%, transparent 60%),
-                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(194, 54, 42, 0.04) 0%, transparent 50%),
-                linear-gradient(180deg, #1a1410 0%, #14100a 40%, #1a1410 100%);
+                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(227, 181, 88, 0.1) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(217, 74, 54, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 70% 50% at 15% 90%, rgba(90, 130, 200, 0.14) 0%, transparent 55%),
+                linear-gradient(180deg, #101a2e 0%, #0d1526 40%, #111c33 100%);
             line-height: 1.75;
             overflow-x: hidden;
             letter-spacing: 0.025em;
@@ -68,10 +69,22 @@
             inset: 0;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.03;
+            opacity: 0.5;
             background-image:
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(196, 155, 63, 0.5) 2px, rgba(196, 155, 63, 0.5) 2.5px),
-                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(196, 155, 63, 0.5) 2px, rgba(196, 155, 63, 0.5) 2.5px);
+                radial-gradient(1.5px 1.5px at 12% 22%, rgba(240, 207, 122, 0.55) 50%, transparent 51%),
+                radial-gradient(1px 1px at 28% 68%, rgba(240, 207, 122, 0.4) 50%, transparent 51%),
+                radial-gradient(1.5px 1.5px at 45% 15%, rgba(240, 207, 122, 0.5) 50%, transparent 51%),
+                radial-gradient(1px 1px at 62% 42%, rgba(240, 207, 122, 0.35) 50%, transparent 51%),
+                radial-gradient(1.5px 1.5px at 78% 75%, rgba(240, 207, 122, 0.45) 50%, transparent 51%),
+                radial-gradient(1px 1px at 88% 30%, rgba(240, 207, 122, 0.55) 50%, transparent 51%),
+                radial-gradient(1px 1px at 35% 88%, rgba(240, 207, 122, 0.35) 50%, transparent 51%),
+                radial-gradient(1.5px 1.5px at 70% 8%, rgba(240, 207, 122, 0.5) 50%, transparent 51%);
+            background-size: 260px 260px;
+            animation: twinkle 5s ease-in-out infinite alternate;
+        }
+        @keyframes twinkle {
+            from { opacity: 0.3; }
+            to { opacity: 0.55; }
         }
 
         .bg-ink-wash {
@@ -88,7 +101,7 @@
             transform: translateX(-50%);
             width: 60vw;
             height: 40vh;
-            background: radial-gradient(ellipse, rgba(196, 155, 63, 0.08) 0%, transparent 70%);
+            background: radial-gradient(ellipse, rgba(227, 181, 88, 0.08) 0%, transparent 70%);
         }
 
         .bg-ink-wash.bottom {
@@ -96,7 +109,7 @@
             right: -10%;
             width: 50vw;
             height: 35vh;
-            background: radial-gradient(ellipse, rgba(194, 54, 42, 0.05) 0%, transparent 60%);
+            background: radial-gradient(ellipse, rgba(217, 74, 54, 0.05) 0%, transparent 60%);
         }
 
         /* ============ SEAL DECORATION ============ */
@@ -106,7 +119,7 @@
             z-index: 0;
             width: 120px;
             height: 120px;
-            border: 1.5px solid rgba(196, 155, 63, 0.08);
+            border: 1.5px solid rgba(227, 181, 88, 0.3);
             border-radius: 50%;
             top: 8%;
             right: 5%;
@@ -120,7 +133,7 @@
             content: '易';
             font-family: var(--font-display);
             font-size: 2.5rem;
-            color: rgba(196, 155, 63, 0.15);
+            color: rgba(227, 181, 88, 0.4);
             font-weight: 700;
         }
 
@@ -203,8 +216,11 @@
             border-radius: var(--radius);
             padding: 36px 32px;
             position: relative;
-            transition: background var(--transition-fast), border-color var(--transition-fast);
+            transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
             overflow: hidden;
+            box-shadow: 0 10px 36px rgba(0, 0, 0, 0.22), 0 0 48px rgba(227, 181, 88, 0.06);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .card::before {
@@ -307,10 +323,11 @@
         }
 
         .question-tab.active {
-            background: rgba(196, 155, 63, 0.1);
-            border-color: rgba(196, 155, 63, 0.35);
-            color: var(--gold);
-            font-weight: 500;
+            background: linear-gradient(135deg, #ecc76a, #d9a94a);
+            border-color: rgba(240, 207, 122, 0.7);
+            color: #241a06;
+            font-weight: 600;
+            box-shadow: 0 4px 14px rgba(227, 181, 88, 0.3);
         }
 
         /* ============ TOSS BUTTON ============ */
@@ -321,34 +338,36 @@
             justify-content: center;
             gap: 10px;
             padding: 16px 48px;
-            background: transparent;
-            color: var(--gold);
-            border: 1px solid var(--border-glow);
+            background: linear-gradient(135deg, #e85f3c 0%, #d94a36 55%, #c23a2a 100%);
+            color: #fff8ec;
+            border: 1px solid rgba(255, 205, 130, 0.55);
             border-radius: var(--radius-sm);
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: 600;
             font-family: var(--font-display);
             letter-spacing: 0.12em;
             cursor: pointer;
             transition: all var(--transition);
             overflow: hidden;
             isolation: isolate;
+            box-shadow: 0 10px 28px rgba(217, 74, 54, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.28);
         }
 
         .toss-button::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(196, 155, 63, 0.08);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
             opacity: 0;
             transition: opacity var(--transition);
             z-index: -1;
         }
 
         .toss-button:hover {
-            border-color: var(--gold);
-            color: var(--cream);
-            transform: translateY(-1px);
+            border-color: rgba(255, 220, 150, 0.8);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 34px rgba(217, 74, 54, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
         .toss-button:hover::before {
@@ -417,8 +436,8 @@
         }
 
         .hexagram-line.yang {
-            background: linear-gradient(90deg, rgba(196, 155, 63, 0.3), var(--gold), rgba(196, 155, 63, 0.3));
-            box-shadow: 0 0 12px rgba(196, 155, 63, 0.15);
+            background: linear-gradient(90deg, rgba(227, 181, 88, 0.3), var(--gold), rgba(227, 181, 88, 0.3));
+            box-shadow: 0 0 12px rgba(227, 181, 88, 0.15);
         }
 
         .hexagram-line.yin {
@@ -428,7 +447,7 @@
         .hexagram-line.yin .yin-segment {
             width: 80px;
             height: 100%;
-            background: linear-gradient(90deg, rgba(196, 155, 63, 0.3), rgba(196, 155, 63, 0.6), rgba(196, 155, 63, 0.3));
+            background: linear-gradient(90deg, rgba(227, 181, 88, 0.3), rgba(227, 181, 88, 0.6), rgba(227, 181, 88, 0.3));
             border-radius: 2px;
         }
 
@@ -509,8 +528,8 @@
         }
 
         .lottery-tab.active {
-            background: rgba(196, 155, 63, 0.08);
-            border-color: rgba(196, 155, 63, 0.3);
+            background: rgba(227, 181, 88, 0.08);
+            border-color: rgba(227, 181, 88, 0.3);
             color: var(--gold);
         }
 
@@ -579,9 +598,9 @@
         }
 
         .lottery-ball.red {
-            background: rgba(194, 54, 42, 0.2);
+            background: rgba(217, 74, 54, 0.2);
             color: #e07060;
-            border: 1px solid rgba(194, 54, 42, 0.3);
+            border: 1px solid rgba(217, 74, 54, 0.3);
         }
 
         .lottery-ball.blue {
@@ -649,7 +668,7 @@
             position: fixed;
             inset: 0;
             z-index: 1000;
-            background: rgba(26, 20, 16, 0.92);
+            background: rgba(16, 26, 46, 0.92);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -715,14 +734,14 @@
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb {
-            background: rgba(196, 155, 63, 0.2);
+            background: rgba(227, 181, 88, 0.2);
             border-radius: 2px;
         }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(196, 155, 63, 0.35); }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(227, 181, 88, 0.35); }
 
         /* ============ SELECTION ============ */
         ::selection {
-            background: rgba(196, 155, 63, 0.25);
+            background: rgba(227, 181, 88, 0.25);
             color: var(--cream);
         }
 
@@ -797,8 +816,9 @@
         }
         .mode-toggle button:first-child { border-right: 1px solid var(--border); }
         .mode-toggle button.active {
-            background: rgba(196, 155, 63, 0.1);
-            color: var(--gold);
+            background: linear-gradient(135deg, #ecc76a, #d9a94a);
+            color: #241a06;
+            font-weight: 600;
         }
         .mode-toggle button:hover { color: var(--cream); }
 
@@ -814,7 +834,7 @@
             width: 72px;
             height: 72px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #3a3020, #5a4a30);
+            background: linear-gradient(135deg, #8a6a30, #c89a48);
             border: 2px solid var(--border-glow);
             cursor: pointer;
             transition: all var(--transition-fast);
@@ -829,7 +849,7 @@
         .coin-btn:hover {
             transform: scale(1.08);
             border-color: var(--gold);
-            box-shadow: 0 6px 30px rgba(196, 155, 63, 0.2);
+            box-shadow: 0 6px 30px rgba(227, 181, 88, 0.2);
         }
         .coin-btn:active { transform: scale(0.95); }
         .coin-btn:disabled {
@@ -912,14 +932,14 @@
         .yao-list-title:hover { color: var(--cream); }
         .yao-item {
             padding: 12px 16px;
-            border-bottom: 1px solid rgba(196, 155, 63, 0.06);
+            border-bottom: 1px solid rgba(227, 181, 88, 0.06);
             cursor: pointer;
             transition: all var(--transition-fast);
             display: flex;
             align-items: flex-start;
             gap: 12px;
         }
-        .yao-item:hover { background: rgba(196, 155, 63, 0.04); }
+        .yao-item:hover { background: rgba(227, 181, 88, 0.04); }
         .yao-item .yao-pos {
             font-family: var(--font-display);
             font-size: 0.8rem;
@@ -935,7 +955,7 @@
         }
         .yao-item.moving-line {
             border-left: 2px solid var(--cinnabar);
-            background: rgba(194, 54, 42, 0.04);
+            background: rgba(217, 74, 54, 0.04);
         }
         .yao-item.moving-line .yao-pos { color: var(--cinnabar); }
 
@@ -973,7 +993,7 @@
             padding: 7px 6px;
             text-align: center;
             color: var(--text-secondary);
-            border-bottom: 1px solid rgba(196, 155, 63, 0.04);
+            border-bottom: 1px solid rgba(227, 181, 88, 0.04);
         }
         .najia-table .shi-row { color: var(--gold); font-weight: 500; }
         .najia-table .ying-row { color: var(--cream); }
@@ -1028,7 +1048,7 @@
             font-family: var(--font-body);
         }
         .share-actions button:hover {
-            background: rgba(196, 155, 63, 0.1);
+            background: rgba(227, 181, 88, 0.1);
             border-color: var(--gold);
         }
         .share-close {
@@ -1060,7 +1080,7 @@
             align-items: center;
             gap: 8px;
             padding: 8px 20px;
-            background: rgba(196, 155, 63, 0.06);
+            background: rgba(227, 181, 88, 0.1);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             cursor: pointer;
@@ -1072,7 +1092,7 @@
         .daily-badge:hover {
             border-color: var(--border-glow);
             color: var(--gold);
-            background: rgba(196, 155, 63, 0.1);
+            background: rgba(227, 181, 88, 0.1);
         }
         .daily-badge .daily-icon { font-size: 1.1rem; }
 
@@ -1113,7 +1133,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 14px 16px;
-            background: rgba(196, 155, 63, 0.03);
+            background: rgba(227, 181, 88, 0.03);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             transition: all var(--transition-fast);
@@ -1149,7 +1169,7 @@
             color: var(--gold);
             border-color: var(--border-glow);
         }
-        .collection-item .col-actions button.danger { color: var(--cinnabar); border-color: rgba(194, 54, 42, 0.3); }
+        .collection-item .col-actions button.danger { color: var(--cinnabar); border-color: rgba(217, 74, 54, 0.3); }
         .collection-item .col-actions button.danger:hover { border-color: var(--cinnabar); }
         .compare-section {
             display: flex;
@@ -1160,7 +1180,7 @@
             flex: 1;
             min-width: 140px;
             padding: 16px;
-            background: rgba(196, 155, 63, 0.03);
+            background: rgba(227, 181, 88, 0.03);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             text-align: center;
@@ -3093,13 +3113,13 @@ const najiaData = {"1": {"p": "乾", "e": "金", "s": 6, "y": 3, "b": ["子", "�
             const ctx = canvas.getContext('2d');
             const w = canvas.width, h = canvas.height;
             // Background
-            ctx.fillStyle = '#1a1410';
+            ctx.fillStyle = '#101a2e';
             ctx.fillRect(0, 0, w, h);
             // Decorative border
-            ctx.strokeStyle = 'rgba(196, 155, 63, 0.3)';
+            ctx.strokeStyle = 'rgba(227, 181, 88, 0.3)';
             ctx.lineWidth = 2;
             ctx.strokeRect(20, 20, w - 40, h - 40);
-            ctx.strokeStyle = 'rgba(196, 155, 63, 0.12)';
+            ctx.strokeStyle = 'rgba(227, 181, 88, 0.12)';
             ctx.strokeRect(30, 30, w - 60, h - 60);
             // Title
             ctx.fillStyle = '#c49b3f';
@@ -3112,7 +3132,7 @@ const najiaData = {"1": {"p": "乾", "e": "金", "s": 6, "y": 3, "b": ["子", "�
                 ctx.font = 'bold 52px "Noto Serif SC", serif';
                 ctx.fillText(currentHexagramInfo.name, w / 2, 190);
                 // Number
-                ctx.fillStyle = 'rgba(196, 155, 63, 0.5)';
+                ctx.fillStyle = 'rgba(227, 181, 88, 0.5)';
                 ctx.font = '20px "Noto Sans SC", sans-serif';
                 ctx.fillText('卦序 · ' + currentHexagramInfo.number, w / 2, 230);
                 // Draw hexagram lines
@@ -3123,10 +3143,10 @@ const najiaData = {"1": {"p": "乾", "e": "金", "s": 6, "y": 3, "b": ["子", "�
                         const y = yStart + i * (lineH + gap);
                         const x = w / 2 - lineW / 2;
                         if (line.lineType === 'yang') {
-                            ctx.fillStyle = 'rgba(196, 155, 63, 0.5)';
+                            ctx.fillStyle = 'rgba(227, 181, 88, 0.5)';
                             ctx.fillRect(x, y, lineW, lineH);
                         } else {
-                            ctx.fillStyle = 'rgba(196, 155, 63, 0.5)';
+                            ctx.fillStyle = 'rgba(227, 181, 88, 0.5)';
                             const segW = (lineW - 20) / 2;
                             ctx.fillRect(x, y, segW, lineH);
                             ctx.fillRect(x + segW + 20, y, segW, lineH);
@@ -3150,7 +3170,7 @@ const najiaData = {"1": {"p": "乾", "e": "金", "s": 6, "y": 3, "b": ["子", "�
                 ctx.fillText(fortune, w / 2, 530);
             }
             // Footer
-            ctx.fillStyle = 'rgba(196, 155, 63, 0.4)';
+            ctx.fillStyle = 'rgba(227, 181, 88, 0.4)';
             ctx.font = '14px "Noto Sans SC", sans-serif';
             ctx.fillText('周易六爻运势预测 · 仅供娱乐参考', w / 2, h - 60);
             const dateStr = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
